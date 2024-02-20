@@ -79,6 +79,7 @@ def main():
                     st.warning(
                         "Please fill in all assessment information before proceeding.")
                 else:
+                    st.write("Expand below to conduct assement")
                     print(country_name, assessors_info, period_of_review)
         with st.expander("FSP Policies, Commitment & Political Will"):
             fsp_policies_scores = fsp_policies_section()
