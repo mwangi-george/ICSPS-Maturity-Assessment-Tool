@@ -79,7 +79,7 @@ def main():
                     st.warning(
                         "Please fill in all assessment information before proceeding.")
                 else:
-                    st.write("Expand below to conduct assement")
+                    st.success("Expand below to conduct assement")
                     print(country_name, assessors_info, period_of_review)
         with st.expander("FSP Policies, Commitment & Political Will"):
             fsp_policies_scores = fsp_policies_section()
@@ -102,7 +102,8 @@ def main():
             st.markdown(f"# {assessors_info}'s Maturity Level for Review Period {
                         period_of_review}👇 :")
             st.markdown(f"## {maturity_level}")
-            print(country_name, assessors_info, period_of_review)
+            print(country_name, assessors_info,
+                  period_of_review, funding_adjustments_scores, analysis_scores)
 
 
 if __name__ == "__main__":
