@@ -1,6 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-from settings import purpose, instructions, project_sections, fsp_policies_section, data_section, analysis_section, forecasting_supply_planning_section, funding_adjustments_section
+from dependencies import purpose, instructions, project_sections, fsp_policies_section, data_section
+from dependencies import analysis_section, forecasting_supply_planning_section, funding_adjustments_section
 from datetime import datetime
 
 
