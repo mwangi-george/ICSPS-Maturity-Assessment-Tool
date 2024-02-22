@@ -4,7 +4,6 @@ from dependencies import purpose, instructions, project_sections, fsp_policies_s
 from dependencies import analysis_section, forecasting_supply_planning_section, funding_adjustments_section
 from datetime import datetime
 
-
 # Create the bulleted list using Markdown syntax
 bullet_list = "\n".join([f"- {item}" for item in project_sections])
 

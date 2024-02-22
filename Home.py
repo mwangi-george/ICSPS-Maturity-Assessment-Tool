@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from streamlit_option_menu import option_menu
-from settings import purpose, instructions, project_sections
+from global import purpose, instructions, project_sections
 from datetime import datetime
 
 
