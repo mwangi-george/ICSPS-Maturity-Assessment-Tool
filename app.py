@@ -102,7 +102,8 @@ def main():
             st.markdown(f"# {assessors_info}'s Maturity Level for Review Period {
                         period_of_review}👇 :")
             st.markdown(f"## {maturity_level}")
-            print(country_name, assessors_info,
+            print(datetime.now())
+            print(country_name, assessors_info, total_score,
                   period_of_review, funding_adjustments_scores, analysis_scores)
 
 
