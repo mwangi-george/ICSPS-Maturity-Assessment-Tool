@@ -13,15 +13,14 @@ project_title_short = "ICSPS " + tool_purpose
 
 st.set_page_config(
     page_title=project_title_short,
-    layout="wide"
+    layout="centered"
 )
 
 selected = option_menu(
     menu_title=None,
     options=[
         "Home Page",
-        "Data Entry",
-
+        "Data Entry"
     ],
     icons=[
         'house', 'activity'
