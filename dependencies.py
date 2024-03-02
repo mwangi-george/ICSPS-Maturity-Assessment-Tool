@@ -294,7 +294,7 @@ def funding_adjustments_section():
         "Select adjustments funding availability status:", adjustments_funding_options)
 
     st.subheader("Comments")
-    comments = st.text_area("Provide comments here:", key="funding_adj")
+    comments = st.text_area("Provide comments here:", key="funding_adjst")
 
     return [results_communication_options.index(results_communication_status) + 1,
             adjustments_communication_options.index(
