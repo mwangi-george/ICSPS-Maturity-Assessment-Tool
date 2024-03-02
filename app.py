@@ -99,8 +99,8 @@ def main():
             st.metric(label="Total Score", value=total_score)
             maturity_level = determine_maturity_level(total_score)
 
-            st.markdown(f"# {assessors_info}'s 
-                        Maturity Level for Review Period {period_of_review}👇 :")
+            st.markdown(
+                f"# {assessors_info}'s Maturity Level for Review Period {period_of_review}👇 :")
             st.markdown(f"## {maturity_level}")
             print(datetime.now())
             print(country_name, assessors_info, total_score,
