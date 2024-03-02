@@ -1,3 +1,4 @@
+import pandas as pd
 import streamlit as st
 
 project_sections = [
@@ -82,12 +83,20 @@ def fsp_policies_section():
     st.subheader("Comments")
     st.text_area("Provide comments here:", key="fsp")
 
-    return [team_options.index(team_status) + 1, stakeholders_options.index(stakeholders_status) + 1,
-            plans_options.index(plans_status) +
-            1, tor_options.index(tor_status) + 1,
-            strategy_options.index(
-                strategy_status) + 1, commitment_options.index(commitment_status) + 1,
-            resources_options.index(resources_status) + 1]
+    # Create a data frame with the responses
+    responses = [
+        team_status, stakeholders_status, plans_status,
+        tor_status, strategy_status, commitment_status,
+        resources_options
+    ]
+
+    responses = {
+        'Team Status': team_status, 'Stakeholders Status': stakeholders_status, 'Plans Status': plans_status,
+        'TOR Status': tor_status, 'Strategy Status': strategy_status, 'Commitment Status': commitment_status, 'Resources Status': resources_status
+    }
+    df = pd.DataFrame(responses, index=[0])
+    print(df)
+    return df
 
 
 def data_section():
