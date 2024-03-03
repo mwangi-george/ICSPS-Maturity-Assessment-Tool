@@ -3,3 +3,5 @@ streamlit
 pandas
 gspread
 gspread_dataframe
+os
+google.oauth2
