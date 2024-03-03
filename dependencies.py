@@ -1,6 +1,10 @@
 import pandas as pd
 import streamlit as st
 
+import gspread
+from google.oauth2.service_account import Credentials
+from gspread_dataframe import set_with_dataframe
+
 project_sections = [
     "FSP Policies, Commitment & Political Will",
     "Data",
@@ -213,7 +217,7 @@ def data_section():
     comments = st.text_area("Provide comments here:", key="data")
 
     responses = [
-        disaggregated_status, access_status, stock_status, reporting_status, tools_status
+        disaggregated_status, access_status, stock_status, reporting_status, tools_status, comments
     ]
 
     answers_df = pd.DataFrame(responses, columns=["answer"])
@@ -296,7 +300,7 @@ def analysis_section():
     responses = [
         stock_status, forecasting_method, decentralized_data,
         triangulation, update_forecasts, determine_orders,
-        plan_coverage, scenario_monitoring, expiry_estimation
+        plan_coverage, scenario_monitoring, expiry_estimation, comments
     ]
 
     answers_df = pd.DataFrame(responses, columns=["answer"])
@@ -377,7 +381,7 @@ def forecasting_supply_planning_section():
     responses = [
         work_plans_status, stakeholders_status, meetings_status,
         review_status, flexibility_status, decisions_status,
-        evidence_status, risks_status
+        evidence_status, risks_status, comments
     ]
 
     answers_df = pd.DataFrame(responses, columns=["answer"])
@@ -439,7 +443,7 @@ def funding_adjustments_section():
     responses = [
         results_communication_status, adjustments_communication_status,
         adjustments_implementation_status, total_funding_status,
-        adjustments_funding_status
+        adjustments_funding_status, comments
     ]
 
     answers_df = pd.DataFrame(responses, columns=["answer"])
@@ -495,6 +499,26 @@ countries = [
 review_periods = [
     "Q1 2024", "Q2 2024", "Q3 2024", "Q4 2024"
 ]
+
+# Authenticate with Google Drive
+
+
+def authenticate():
+    scope = ["https://spreadsheets.google.com/feeds",
+             "https://www.googleapis.com/auth/drive"]
+    creds = Credentials.from_service_account_file(
+        "credentials.json", scopes=scope)
+    client = gspread.authorize(creds)
+    return client
+
+
+def append_to_sheet(df, sheet_name):
+    client = authenticate()
+    sheet = client.open(sheet_name).sheet1  # Change the sheet name as needed
+    existing_data = sheet.get_all_records()
+    existing_df = pd.DataFrame(existing_data)
+    combined_df = pd.concat([existing_df, df], ignore_index=True)
+    set_with_dataframe(sheet, combined_df)
 
 
 if __name__ == "__main__":

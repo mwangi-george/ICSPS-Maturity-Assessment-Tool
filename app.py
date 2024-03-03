@@ -3,7 +3,9 @@ import pandas as pd
 from streamlit_option_menu import option_menu
 from dependencies import purpose, instructions, project_sections, fsp_policies_section, data_section
 from dependencies import analysis_section, forecasting_supply_planning_section, funding_adjustments_section, countries, review_periods
+from dependencies import append_to_sheet
 from datetime import datetime
+
 
 # Create the bulleted list using Markdown syntax
 bullet_list = "\n".join([f"- {item}" for item in project_sections])
@@ -72,16 +74,17 @@ def main():
         period_of_review = st.selectbox(
             "Period of Review", review_periods, placeholder="Choose the period of review")
         date_of_assessment = datetime.now()
-        start_assessment = st.button(
-            label="Start Assessment", key="start_assessment")
+        # start_assessment = st.button(
+        #     label="Start Assessment", key="start_assessment")
 
-        if start_assessment:
-            if not (country_name and assessors_info and period_of_review):
-                st.warning(
-                    "Please fill in all assessment information before proceeding.")
-            else:
-                st.success("Expand below to conduct assement")
-                print(country_name, assessors_info, period_of_review)
+        # if start_assessment:
+        #     if not (country_name and assessors_info and period_of_review):
+        #         st.warning(
+        #             "Please fill in all assessment information before proceeding.")
+        #     else:
+        #         st.success("Expand below to conduct assement")
+        #         print(country_name, assessors_info, period_of_review)
+        st.divider()
         with st.expander("FSP Policies, Commitment & Political Will"):
             def columns_adder(df, section):
                 df["country"] = country_name
@@ -128,6 +131,18 @@ def main():
             ], axis=0)
 
             st.dataframe(all_data.reset_index(drop=True), hide_index=True)
+            total_score = all_data['score'].sum(skipna=True)
+        maturity_level = determine_maturity_level(total_score)
+        st.markdown("### Your maturity level is:")
+        st.markdown(f"#### {maturity_level}")
+        st.metric(label="Total Maturity Score", value=total_score)
+
+        submit_data = st.button(
+            label="Submit", key="submit_assessment_df")
+
+        if submit_data:
+            append_to_sheet(all_data, "icsps_data_make_a_copy")
+            st.success("Successfully submitted!🔔")
         # if st.button("Calculate Total Score"):
         # total_score = calculate_total_score(
         #     fsp_policies_scores + data_scores + analysis_scores + forecasting_supply_planning_scores + funding_adjustments_scores)
