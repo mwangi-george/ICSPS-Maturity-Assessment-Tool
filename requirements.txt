@@ -3,4 +3,3 @@ streamlit
 pandas
 gspread
 gspread_dataframe
-google.oauth2
