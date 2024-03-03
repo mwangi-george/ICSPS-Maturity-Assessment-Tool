@@ -40,278 +40,461 @@ If you have any key comments, please provide them in the sections provided at th
 """
 
 
+questions = [
+    "There is a multidisciplinary team responsible for forecasting and supply planning for vaccines. This can be any working group or unit responsible for FSP in the MOH",
+    "Inclusion of all relevant stakeholders in forecasting and supply planning for vaccines in the country",
+    "Existence of work plans, MoUs, or TORs for vaccine forecasting and supply planning (stand-alone or anchored on other documents)",
+    "The TOR covers the following key FSP functions and responsibilities listed; i) developing work plans, ii) organizing and completing FSP preparatory activities, iii) developing a forecast and supply plan, iv) ensuring FSP monitoring and implementation of a continuous improvement plan, v) leading standardization of FSP processes and training of members, vi) liaising with and leveraging skills and expertise available in other program areas to ensure alignment and integration; and, vii) supporting other innovative activities such as new vaccine introduction",
+    "The EPI program has a supply chain strategy that covers the following key technical areas of FSP; Preparatory activities for FSP (e.g. gathering and ratifying data assumptions and consultation meetings or workshops), Forecasting, Supply Planning, Pipeline Monitoring, and FSP performance monitoring",
+    "Commitment from the relevant stakeholders toward forecasting and supply planning for vaccines",
+    "Resources allocated for forecasting and supply planning-related tasks",
+    "FSP Policies, Commitment & Political Will Comments",
+    "Presence of a reliable system for collecting disaggregated data",
+    "Access to relevant, quality, and disaggregated data (consumption data by product, dose and month, wastages - open and closed vial wastage, adjustments, expiries, etc.)",
+    "Accuracy of stock balances",
+    "Data reporting practices (timeliness of reporting)",
+    "Standardized tools for forecasting and supply planning are routinely used",
+    "Data Comments",
+    "Stock status is routinely assessed",
+    "Methodology used for forecasting vaccines",
+    "Data from decentralized levels (e.g., regions, districts, facilities) is used to develop the national forecast and supply plan",
+    "Triangulation of data from different sources when developing national forecasts, e.g. EPI forecasting tool, stock management tool (SMT), District Vaccine Data Management Tool (DVD/MT), District Health Information System 2 (DHIS2), ViVa e.t.c",
+    "Calculate and update forecasts based on updated data and discussions with stakeholders",
+    "Forecasts and supply plans developed (determination of what needs to be ordered by whom and when)",
+    "Forecasting and supply plan report (or supply plan) cover key components of the quantification report (or supply plan), i.e. Forecasting assumptions and considerations, Forecasted quantities, Quantities required to fill the supply pipeline, funding requirement/costs, shipment schedules, including specific lead times where applicable",
+    "Conduct scenario monitoring",
+    "Ability to estimate the potential for vaccine expiry",
+    "Analysis Comments",
+    "Forecasting and supply planning activities included in the EPI work plans",
+    "Forecasting and supply planning activities are inclusive of all relevant stakeholders (including implementing partners and donors)",
+    "Regular and routine supply planning meetings scheduled (ideally quarterly at minimum)",
+    "Forecasting and supply planning meetings review previous actions and recommendations",
+    "Flexible to convene ad-hoc meetings to respond to emerging supply planning (SP) needs",
+    "Decisions made in a timely and well-coordinated manner",
+    "Decisions are based on evidence",
+    "Meetings address supply planning risks",
+    "Forecasting and Supply Planning Activities Comments",
+    "Results of forecasting and supply planning reports are communicated to all relevant stakeholders",
+    "Recommended adjustments are communicated to all relevant stakeholders",
+    "Recommended adjustments are made in a timely and complete fashion",
+    "Funding is available in a timely manner for total commodity requirement",
+    "Funding is available to implement the recommended supply plan adjustments in a timely manner",
+    "Funding and Adjustments of Forecasts and Supply Plans Comments"
+]
+
+questions_df = pd.DataFrame(questions, columns=["questions"])
+
+
 def fsp_policies_section():
-    st.subheader("Multidisciplinary Team")
-    team_options = ["Absence of team",
-                    "Responsibility of few individuals", "Multidisciplinary team exists"]
+    st.subheader(questions[0])
+    team_options = [
+        "Absence of a team responsible for forecasting and supply planning for vaccines",
+        "Forecasting and supply planning for vaccines is the responsibility of a few individuals within the MOH",
+        "There is a multidisciplinary team that is tasked with the responsibility of forecasting and supply planning for vaccines"
+    ]
     team_status = st.radio("Select team status:", team_options, key="1")
 
-    st.subheader("Inclusion of Stakeholders")
-    stakeholders_options = ["Relevant stakeholders not included",
-                            "Limited inclusion of stakeholders", "All relevant stakeholders included"]
+    st.subheader(questions[1])
+    stakeholders_options = [
+        "Relevant stakeholders not included",
+        "Limited inclusion of stakeholders",
+        "All relevant stakeholders included"
+    ]
     stakeholders_status = st.radio(
         "Select stakeholders inclusion status:", stakeholders_options, key="2")
 
-    st.subheader("Work Plans, MoUs, or TORs")
-    plans_options = ["Absence of ToR, MoU, or work plans", "ToR, MoU, or work plans exist but have gaps",
-                     "Vaccine forecasting and supply planning prioritized"]
+    st.subheader(questions[2])
+    plans_options = [
+        "Absence of ToR, MoU, or work plans for vaccine forecasting and supply planning",
+        "ToR, MoU, or work plans for forecasting and supply planning for vaccines exist but have certain gaps",
+        "Vaccine forecasting and supply planning prioritized in TOR, MoU, or work plans"
+
+    ]
     plans_status = st.radio("Select work plans status:",
                             plans_options, key="3")
 
-    st.subheader("TOR Covers Key FSP Functions")
-    tor_options = ["TORs does not cover key functions",
-                   "TORs cover at least two functions", "TORs cover at least four functions"]
+    st.subheader(questions[3])
+    tor_options = [
+        "The TORs does not cover any of the key FSP responsibilities",
+        "The TORs cover at least two of the outlined FSP responsibilities",
+        "The TORs cover at least four FSP responsibilities"
+    ]
     tor_status = st.radio("Select TORs status:", tor_options, key="4")
 
-    st.subheader("Supply Chain Strategy")
-    strategy_options = ["No SC strategy", "SC strategy but doesn't cover key technical areas",
-                        "SC strategy covers key technical areas"]
+    st.subheader(questions[4])
+    strategy_options = [
+        "There is no SC strategy",
+        "There is a SC strategy, but it does not cover any of the key technical areas of FSP",
+        "The SC strategy covers the key technical areas of FSP"
+    ]
     strategy_status = st.radio(
         "Select SC strategy status:", strategy_options, key="5")
 
-    st.subheader("Commitment from Stakeholders")
-    commitment_options = ["No commitment from stakeholders",
-                          "Limited commitment of stakeholders", "Adequate commitment from stakeholders"]
+    st.subheader(questions[5])
+    commitment_options = [
+        "No commitment from the relevant stakeholders",
+        "Limited commitment of the relevant stakeholders",
+        "Adequate commitment from relevant stakeholders"
+    ]
     commitment_status = st.radio(
         "Select commitment status:", commitment_options, key="6")
 
-    st.subheader("Resources Allocated")
-    resources_options = ["Resources lacking for all FSP tasks",
-                         "Resources limited for FSP tasks", "Adequate resources available for FSP tasks"]
+    st.subheader(questions[6])
+    resources_options = [
+        "Resources are lacking for all FSP related tasks",
+        "Resources are limited for FSP related tasks",
+        "Adequate resources are available for all FSP related tasks"
+    ]
     resources_status = st.radio(
         "Select resources status:", resources_options, key="7")
-    st.subheader("Comments")
-    st.text_area("Provide comments here:", key="fsp")
+    st.subheader(questions[7])
+    section_1_comment = st.text_area("Provide comments here:", key="fsp")
 
     # Create a data frame with the responses
     responses = [
-        team_status, stakeholders_status, plans_status,
-        tor_status, strategy_status, commitment_status,
-        resources_options
+        team_status, stakeholders_status,
+        plans_status, tor_status, strategy_status,
+        commitment_status, resources_status,
+        section_1_comment
     ]
+    answers_df = pd.DataFrame(responses, columns=["answer"])
+    questions_answers_df = pd.concat(
+        [questions_df[0:8].reset_index(drop=True), answers_df], axis=1)
+    print(questions_answers_df)
+    scores = [
+        team_options.index(team_status) + 1,
+        stakeholders_options.index(stakeholders_status) + 1,
+        plans_options.index(plans_status) + 1,
+        tor_options.index(tor_status) + 1,
+        strategy_options.index(strategy_status) + 1,
+        commitment_options.index(commitment_status) + 1,
+        resources_options.index(resources_status) + 1
+    ]
+    scores_df = pd.DataFrame(scores, columns=["score"])
 
-    responses = {
-        'Team Status': team_status, 'Stakeholders Status': stakeholders_status, 'Plans Status': plans_status,
-        'TOR Status': tor_status, 'Strategy Status': strategy_status, 'Commitment Status': commitment_status, 'Resources Status': resources_status
-    }
-    df = pd.DataFrame(responses, index=[0])
-    print(df)
-    return df
+    combined_df = pd.concat([questions_answers_df, scores_df], axis=1)
+    return combined_df
 
 
 def data_section():
-    st.subheader(
-        "Presence of a Reliable System for Collecting Disaggregated Data")
-    disaggregated_options = ["The country lacks a reliable system",
-                             "The system has some gaps", "The country has a reliable system"]
+    st.subheader(questions[8])
+    disaggregated_options = [
+        "The country lacks a reliable system",
+        "The system has some gaps",
+        "The country has a reliable system"
+    ]
     disaggregated_status = st.radio(
         "Select disaggregated data status:", disaggregated_options, key="8")
 
-    st.subheader("Access to Relevant, Quality, and Disaggregated Data")
+    st.subheader(questions[9])
     access_options = ["Disaggregated data is not available",
                       "Limited access to disaggregated data", "Seamless flow in accessing disaggregated data"]
     access_status = st.radio(
         "Select data access status:", access_options, key="9")
 
-    st.subheader("Accuracy of Stock Balances")
+    st.subheader(questions[10])
     stock_options = ["Significant data discrepancy",
                      "Partially accurate data", "Data matches reality/is close to accurate"]
     stock_status = st.radio(
         "Select stock balances status:", stock_options, key="10")
 
-    st.subheader("Data Reporting Practices (Timeliness of Reporting)")
+    st.subheader(questions[11])
     reporting_options = ["Poor data reporting practices",
                          "Ad-hoc reporting and late updating", "Data is routinely and continuously updated"]
     reporting_status = st.radio(
         "Select reporting practices status:", reporting_options, key="11")
 
-    st.subheader("Standardized Tools for Forecasting and Supply Planning")
+    st.subheader(questions[12])
     tools_options = ["Tools exist but not used", "Only one tool used",
                      "Both forecasting and supply planning tools used"]
     tools_status = st.radio("Select tools status:", tools_options, key="12")
 
-    st.subheader("Comments")
+    st.subheader(questions[13])
     comments = st.text_area("Provide comments here:", key="data")
 
-    return [disaggregated_options.index(disaggregated_status) + 1,
-            access_options.index(access_status) + 1,
-            stock_options.index(stock_status) + 1,
-            reporting_options.index(reporting_status) + 1,
-            tools_options.index(tools_status) + 1]
+    responses = [
+        disaggregated_status, access_status, stock_status, reporting_status, tools_status
+    ]
+
+    answers_df = pd.DataFrame(responses, columns=["answer"])
+    print(answers_df)
+    questions_answers_df = pd.concat(
+        [questions_df[8:14].reset_index(drop=True), answers_df], axis=1)
+    scores = [
+        disaggregated_options.index(disaggregated_status) + 1,
+        access_options.index(access_status) + 1,
+        stock_options.index(stock_status) + 1,
+        reporting_options.index(reporting_status) + 1,
+        tools_options.index(tools_status) + 1
+    ]
+
+    scores_df = pd.DataFrame(scores, columns=["score"])
+
+    combined_df = pd.concat([questions_answers_df, scores_df], axis=1)
+
+    return combined_df
 
 
 def analysis_section():
-    st.subheader("Routinely Assess Stock Status")
+    st.subheader(questions[14])
     stock_status_options = ["Stock status not assessed",
                             "Untimely assessment of stock status", "Routinely assessed stock status"]
     stock_status = st.radio(
         "Select stock status assessment:", stock_status_options, key="13")
 
-    st.subheader("Methodology Used for Forecasting Vaccines")
+    st.subheader(questions[15])
     forecasting_method_options = [
         "Demographic/wastage factor-based", "Consumption-based", "Vaccination session-based"]
     forecasting_method = st.radio(
         "Select forecasting methodology:", forecasting_method_options, key="14")
 
-    st.subheader("Use of Decentralized Data for National Forecasts")
+    st.subheader(questions[16])
     decentralized_data_options = ["Decentralized data not used for national forecasts",
                                   "Partial use of decentralized data", "Data from all levels used for national forecasts"]
     decentralized_data = st.radio(
         "Select use of decentralized data:", decentralized_data_options, key="15")
 
-    st.subheader("Triangulation of Data from Different Sources")
+    st.subheader(questions[17])
     triangulation_options = ["Data from one source used",
                              "Data from limited sources used", "Data from all relevant sources used"]
     triangulation = st.radio(
         "Select data triangulation status:", triangulation_options, key="16")
 
-    st.subheader("Calculate and Update Forecasts Based on Data")
+    st.subheader(questions[18])
     update_forecasts_options = ["Forecasts not calculated or updated",
                                 "Forecasts available but not updated with current data", "Accurate forecasts updated based on current data"]
     update_forecasts = st.radio(
         "Select update forecasts status:", update_forecasts_options, key="17")
 
-    st.subheader("Determine Orders in Forecast and Supply Plan")
+    st.subheader(questions[19])
     determine_orders_options = ["Unable to determine accurate orders",
                                 "Some accuracy in determining orders", "Accurate determination of orders"]
     determine_orders = st.radio(
         "Select determine orders status:", determine_orders_options, key="18")
 
-    st.subheader("Coverage of Forecast and Supply Plan Reports")
+    st.subheader(questions[20])
     plan_coverage_options = ["Reports cover 0-2 key components",
                              "Reports cover at least 3 key components", "Reports cover all 5 key components"]
     plan_coverage = st.radio(
         "Select plan coverage status:", plan_coverage_options, key="20")
 
-    st.subheader("Conduct Scenario Monitoring")
+    st.subheader(questions[21])
     scenario_monitoring_options = ["Scenario monitoring not conducted",
                                    "Poorly conducted scenario monitoring", "Well-conducted scenario monitoring"]
     scenario_monitoring = st.radio(
         "Select scenario monitoring status:", scenario_monitoring_options, key="21")
 
-    st.subheader("Ability to Estimate Vaccine Expiry")
+    st.subheader(questions[22])
     expiry_estimation_options = ["Inability to estimate vaccine expiry",
                                  "Limited ability to estimate expiry", "Ability to estimate expiry"]
     expiry_estimation = st.radio(
         "Select expiry estimation status:", expiry_estimation_options, key="22")
 
-    st.subheader("Comments")
+    st.subheader(questions[23])
     comments = st.text_area("Provide comments here:")
 
-    return [stock_status_options.index(stock_status) + 1,
-            forecasting_method_options.index(forecasting_method) + 1,
-            decentralized_data_options.index(decentralized_data) + 1,
-            triangulation_options.index(triangulation) + 1,
-            update_forecasts_options.index(update_forecasts) + 1,
-            determine_orders_options.index(determine_orders) + 1,
-            plan_coverage_options.index(plan_coverage) + 1,
-            scenario_monitoring_options.index(scenario_monitoring) + 1,
-            expiry_estimation_options.index(expiry_estimation) + 1]
+    responses = [
+        stock_status, forecasting_method, decentralized_data,
+        triangulation, update_forecasts, determine_orders,
+        plan_coverage, scenario_monitoring, expiry_estimation
+    ]
+
+    answers_df = pd.DataFrame(responses, columns=["answer"])
+    print(answers_df)
+    questions_answers_df = pd.concat(
+        [questions_df[14:24].reset_index(drop=True), answers_df], axis=1)
+    scores = [
+        stock_status_options.index(stock_status) + 1,
+        forecasting_method_options.index(forecasting_method) + 1,
+        decentralized_data_options.index(decentralized_data) + 1,
+        triangulation_options.index(triangulation) + 1,
+        update_forecasts_options.index(update_forecasts) + 1,
+        determine_orders_options.index(determine_orders) + 1,
+        plan_coverage_options.index(plan_coverage) + 1,
+        scenario_monitoring_options.index(scenario_monitoring) + 1,
+        expiry_estimation_options.index(expiry_estimation) + 1
+    ]
+
+    scores_df = pd.DataFrame(scores, columns=["score"])
+
+    combined_df = pd.concat([questions_answers_df, scores_df], axis=1)
+
+    return combined_df
 
 
 def forecasting_supply_planning_section():
-    st.subheader("Inclusion in EPI Work Plans")
+    st.subheader(questions[24])
     work_plans_options = ["Forecasting and supply planning activities not included",
                           "Partially included in EPI work plans", "Adequately included in EPI work plans"]
     work_plans_status = st.radio(
         "Select inclusion in EPI work plans status:", work_plans_options, key="23")
 
-    st.subheader("Inclusion of Relevant Stakeholders")
+    st.subheader(questions[25])
     stakeholders_options = ["Key stakeholders not included",
                             "Limited participation by relevant stakeholders", "All relevant stakeholders included"]
     stakeholders_status = st.radio(
         "Select stakeholders inclusion status:", stakeholders_options, key="24")
 
-    st.subheader("Regular Supply Planning Meetings")
+    st.subheader(questions[26])
     meetings_options = ["Meetings not being held",
                         "Irregular/ad-hoc meetings", "Regularly scheduled meetings"]
     meetings_status = st.radio(
         "Select supply planning meetings status:", meetings_options, key="25")
 
-    st.subheader("Review of Previous Actions and Recommendations")
+    st.subheader(questions[27])
     review_options = ["Meetings do not review past actions and recommendations",
                       "Partial review/addressing of past actions and recommendations", "Full review and addressing of past actions and recommendations"]
     review_status = st.radio("Select review status:", review_options, key="26")
 
-    st.subheader("Flexibility for Ad-hoc Meetings")
+    st.subheader(questions[28])
     flexibility_options = ["Lack of flexibility to convene ad hoc meetings",
                            "Limited flexibility to convene ad-hoc meetings", "Flexible to convene ad-hoc meetings"]
     flexibility_status = st.radio(
         "Select flexibility status:", flexibility_options, key="27")
 
-    st.subheader("Timely and Well-coordinated Decisions")
+    st.subheader(questions[29])
     decisions_options = ["Decisions not made",
                          "Decisions made in an untimely manner", "Decisions made in a timely manner"]
     decisions_status = st.radio(
         "Select decisions status:", decisions_options, key="28")
 
-    st.subheader("Evidence-based Decisions")
+    st.subheader(questions[30])
     evidence_options = ["Decisions not informed by evidence",
                         "Decisions based on limited or incomplete evidence", "Decisions based on evidence"]
     evidence_status = st.radio(
         "Select evidence-based decisions status:", evidence_options, key="29")
 
-    st.subheader("Supply Planning Risks Addressed")
+    st.subheader(questions[31])
     risks_options = ["Supply planning meetings address emergencies only",
                      "Supply planning meetings address imminent risks", "Routine monitoring and addressing of supply risks"]
     risks_status = st.radio(
         "Select supply planning risks status:", risks_options, key="30")
 
-    st.subheader("Comments")
+    st.subheader(questions[32])
     comments = st.text_area("Provide comments here:",
                             key="forecasting_supply_planning")
 
-    return [work_plans_options.index(work_plans_status) + 1,
-            stakeholders_options.index(stakeholders_status) + 1,
-            meetings_options.index(meetings_status) + 1,
-            review_options.index(review_status) + 1,
-            flexibility_options.index(flexibility_status) + 1,
-            decisions_options.index(decisions_status) + 1,
-            evidence_options.index(evidence_status) + 1,
-            risks_options.index(risks_status) + 1]
+    responses = [
+        work_plans_status, stakeholders_status, meetings_status,
+        review_status, flexibility_status, decisions_status,
+        evidence_status, risks_status
+    ]
+
+    answers_df = pd.DataFrame(responses, columns=["answer"])
+    print(answers_df)
+    questions_answers_df = pd.concat(
+        [questions_df[24:33].reset_index(drop=True), answers_df], axis=1)
+    scores = [
+        work_plans_options.index(work_plans_status) + 1,
+        stakeholders_options.index(stakeholders_status) + 1,
+        meetings_options.index(meetings_status) + 1,
+        review_options.index(review_status) + 1,
+        flexibility_options.index(flexibility_status) + 1,
+        decisions_options.index(decisions_status) + 1,
+        evidence_options.index(evidence_status) + 1,
+        risks_options.index(risks_status) + 1
+    ]
+
+    scores_df = pd.DataFrame(scores, columns=["score"])
+
+    combined_df = pd.concat([questions_answers_df, scores_df], axis=1)
+
+    return combined_df
 
 
 def funding_adjustments_section():
-    st.subheader("Communication of Results to Stakeholders")
+    st.subheader(questions[33])
     results_communication_options = ["Results not communicated to stakeholders",
                                      "Results partially communicated to stakeholders", "Results communicated to stakeholders"]
     results_communication_status = st.radio(
         "Select communication of results status:", results_communication_options)
 
-    st.subheader("Communication of Recommended Adjustments")
+    st.subheader(questions[34])
     adjustments_communication_options = ["Adjustments not communicated to stakeholders",
                                          "Adjustments partially communicated to stakeholders", "Adjustments communicated to stakeholders"]
     adjustments_communication_status = st.radio(
         "Select communication of adjustments status:", adjustments_communication_options)
 
-    st.subheader("Timely Implementation of Recommended Adjustments")
+    st.subheader(questions[35])
     adjustments_implementation_options = [
         "Adjustments not implemented", "Adjustments partially implemented and/or untimely", "Adjustments implemented in a timely manner"]
     adjustments_implementation_status = st.radio(
         "Select adjustments implementation status:", adjustments_implementation_options)
 
-    st.subheader("Availability of Funding for Total Commodity Requirement")
+    st.subheader(questions[36])
     total_funding_options = ["Funding not available for total commodity requirement",
                              "Limited funding available for total commodity requirement", "Funding available for total commodity requirement"]
     total_funding_status = st.radio(
         "Select total funding availability status:", total_funding_options)
 
-    st.subheader("Availability of Funding for Recommended Adjustments")
+    st.subheader(questions[37])
     adjustments_funding_options = ["Funding not available for recommended adjustments",
                                    "Limited funding available for recommended adjustments", "Funding available for recommended adjustments"]
     adjustments_funding_status = st.radio(
         "Select adjustments funding availability status:", adjustments_funding_options)
 
-    st.subheader("Comments")
+    st.subheader(questions[38])
     comments = st.text_area("Provide comments here:", key="funding_adjst")
 
-    return [results_communication_options.index(results_communication_status) + 1,
-            adjustments_communication_options.index(
-                adjustments_communication_status) + 1,
-            adjustments_implementation_options.index(
-                adjustments_implementation_status) + 1,
-            total_funding_options.index(total_funding_status) + 1,
-            adjustments_funding_options.index(adjustments_funding_status) + 1]
+    responses = [
+        results_communication_status, adjustments_communication_status,
+        adjustments_implementation_status, total_funding_status,
+        adjustments_funding_status
+    ]
+
+    answers_df = pd.DataFrame(responses, columns=["answer"])
+    print(answers_df)
+    questions_answers_df = pd.concat(
+        [questions_df[33:].reset_index(drop=True), answers_df], axis=1)
+    scores = [
+        results_communication_options.index(results_communication_status) + 1,
+        adjustments_communication_options.index(
+            adjustments_communication_status) + 1,
+        adjustments_implementation_options.index(
+            adjustments_implementation_status) + 1,
+        total_funding_options.index(total_funding_status) + 1,
+        adjustments_funding_options.index(adjustments_funding_status) + 1]
+
+    scores_df = pd.DataFrame(scores, columns=["score"])
+
+    combined_df = pd.concat([questions_answers_df, scores_df], axis=1)
+
+    return combined_df
+
+
+countries = [
+    "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda",
+    "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain",
+    "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia",
+    "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso",
+    "Burundi", "Côte d'Ivoire", "Cabo Verde", "Cambodia", "Cameroon", "Canada",
+    "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo (Congo-Brazzaville)",
+    "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czechia (Czech Republic)", "Democratic Republic of the Congo",
+    "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador",
+    "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini (formerly Swaziland)", "Ethiopia", "Fiji", "Finland",
+    "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala",
+    "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Holy See", "Honduras", "Hungary", "Iceland",
+    "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan",
+    "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho",
+    "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia",
+    "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia",
+    "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar (formerly Burma)",
+    "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea",
+    "North Macedonia (formerly Macedonia)", "Norway", "Oman", "Pakistan", "Palau", "Palestine State", "Panama",
+    "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia",
+    "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino",
+    "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore",
+    "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain",
+    "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Tajikistan", "Tanzania", "Thailand",
+    "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
+    "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay",
+    "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+]
+
+
+review_periods = [
+    "Q1 2024", "Q2 2024", "Q3 2024", "Q4 2024"
+]
 
 
 if __name__ == "__main__":

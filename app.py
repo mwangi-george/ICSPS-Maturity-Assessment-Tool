@@ -1,7 +1,8 @@
 import streamlit as st
+import pandas as pd
 from streamlit_option_menu import option_menu
 from dependencies import purpose, instructions, project_sections, fsp_policies_section, data_section
-from dependencies import analysis_section, forecasting_supply_planning_section, funding_adjustments_section
+from dependencies import analysis_section, forecasting_supply_planning_section, funding_adjustments_section, countries, review_periods
 from datetime import datetime
 
 # Create the bulleted list using Markdown syntax
@@ -64,48 +65,81 @@ def main():
         st.write(instructions)
 
     else:
-        with st.expander("Assessment info"):
+        country_name = st.selectbox(
+            "Name of Country being assessed", countries, placeholder="Choose country")
+        assessors_info = st.text_input(
+            "Name(s) of person(s) and organization(s) completing the assessment")
+        period_of_review = st.selectbox(
+            "Period of Review", review_periods, placeholder="Choose the period of review")
+        date_of_assessment = datetime.now()
+        start_assessment = st.button(
+            label="Start Assessment", key="start_assessment")
 
-            country_name = st.text_input("Name of Country being assessed")
-            assessors_info = st.text_input(
-                "Name(s) of person(s) and organization(s) completing the assessment")
-            period_of_review = st.text_input("Period of Review")
-            date_of_assessment = datetime.now()
-            start_assessment = st.button(
-                label="Start Assessment", key="start_assessment")
-
-            if start_assessment:
-                if not (country_name and assessors_info and period_of_review):
-                    st.warning(
-                        "Please fill in all assessment information before proceeding.")
-                else:
-                    st.success("Expand below to conduct assement")
-                    print(country_name, assessors_info, period_of_review)
+        if start_assessment:
+            if not (country_name and assessors_info and period_of_review):
+                st.warning(
+                    "Please fill in all assessment information before proceeding.")
+            else:
+                st.success("Expand below to conduct assement")
+                print(country_name, assessors_info, period_of_review)
         with st.expander("FSP Policies, Commitment & Political Will"):
-            fsp_policies_scores = fsp_policies_section()
+            def columns_adder(df, section):
+                df["country"] = country_name
+                df["assessors_info"] = assessors_info
+                df["period_of_review"] = period_of_review
+                df["date_of_assessment"] = date_of_assessment
+                df["section"] = section
+                return df
+
+            fsp_policies_section_df = columns_adder(
+                df=fsp_policies_section(),
+                section="FSP Policies, Commitment & Political Will"
+            )
+
         with st.expander("Data"):
-            data_scores = data_section()
+            data_section_df = columns_adder(
+                df=data_section(),
+                section="Data"
+            )
+
         with st.expander("Analysis"):
-            analysis_scores = analysis_section()
+            analysis_section_df = columns_adder(
+                df=analysis_section(),
+                section="Analysis"
+            )
+
         with st.expander("Forecasting and Supply Planning Activities"):
-            forecasting_supply_planning_scores = forecasting_supply_planning_section()
+            forecasting_supply_planning_section_df = columns_adder(
+                df=forecasting_supply_planning_section(),
+                section="Forecasting and Supply Planning Activities"
+            )
+
         with st.expander("Funding and Adjustments of Forecasts and Supply Plans"):
-            funding_adjustments_scores = funding_adjustments_section()
+            funding_adjustments_section_df = columns_adder(
+                df=funding_adjustments_section(),
+                section="Funding and Adjustments of Forecasts and Supply Plans"
+            )
 
         st.divider()
+        with st.expander("View Results Table"):
+            all_data = pd.concat([
+                fsp_policies_section_df, data_section_df, analysis_section_df,
+                forecasting_supply_planning_section_df, funding_adjustments_section_df
+            ], axis=0)
 
-        if st.button("Calculate Total Score"):
-            total_score = calculate_total_score(
-                fsp_policies_scores + data_scores + analysis_scores + forecasting_supply_planning_scores + funding_adjustments_scores)
-            st.metric(label="Total Score", value=total_score)
-            maturity_level = determine_maturity_level(total_score)
+            st.dataframe(all_data.reset_index(drop=True), hide_index=True)
+        # if st.button("Calculate Total Score"):
+        # total_score = calculate_total_score(
+        #     fsp_policies_scores + data_scores + analysis_scores + forecasting_supply_planning_scores + funding_adjustments_scores)
+        # st.metric(label="Total Score", value=total_score)
+        # maturity_level = determine_maturity_level(total_score)
 
-            st.markdown(
-                f"# {assessors_info}'s Maturity Level for Review Period {period_of_review}👇 :")
-            st.markdown(f"## {maturity_level}")
-            print(datetime.now())
-            print(country_name, assessors_info, total_score,
-                  period_of_review, funding_adjustments_scores, analysis_scores)
+        # st.markdown(
+        #     f"# {assessors_info}'s Maturity Level for Review Period {period_of_review}👇 :")
+        # st.markdown(f"## {maturity_level}")
+        # print(datetime.now())
+        # print(country_name, assessors_info, total_score,
+        #       period_of_review, funding_adjustments_scores, analysis_scores)
 
 
 if __name__ == "__main__":
