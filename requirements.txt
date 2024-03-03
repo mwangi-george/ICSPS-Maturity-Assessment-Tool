@@ -3,3 +3,4 @@ streamlit
 pandas
 gspread
 gspread_dataframe
+dotenv
