@@ -168,7 +168,6 @@ def fsp_policies_section():
     answers_df = pd.DataFrame(responses, columns=["answer"])
     questions_answers_df = pd.concat(
         [questions_df[0:8].reset_index(drop=True), answers_df], axis=1)
-    print(questions_answers_df)
     scores = [
         team_options.index(team_status) + 1,
         stakeholders_options.index(stakeholders_status) + 1,
@@ -225,7 +224,6 @@ def data_section():
     ]
 
     answers_df = pd.DataFrame(responses, columns=["answer"])
-    print(answers_df)
     questions_answers_df = pd.concat(
         [questions_df[8:14].reset_index(drop=True), answers_df], axis=1)
     scores = [
@@ -308,7 +306,6 @@ def analysis_section():
     ]
 
     answers_df = pd.DataFrame(responses, columns=["answer"])
-    print(answers_df)
     questions_answers_df = pd.concat(
         [questions_df[14:24].reset_index(drop=True), answers_df], axis=1)
     scores = [
@@ -389,7 +386,6 @@ def forecasting_supply_planning_section():
     ]
 
     answers_df = pd.DataFrame(responses, columns=["answer"])
-    print(answers_df)
     questions_answers_df = pd.concat(
         [questions_df[24:33].reset_index(drop=True), answers_df], axis=1)
     scores = [
@@ -451,7 +447,6 @@ def funding_adjustments_section():
     ]
 
     answers_df = pd.DataFrame(responses, columns=["answer"])
-    print(answers_df)
     questions_answers_df = pd.concat(
         [questions_df[33:].reset_index(drop=True), answers_df], axis=1)
     scores = [

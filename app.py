@@ -74,16 +74,7 @@ def main():
         period_of_review = st.selectbox(
             "Period of Review", review_periods, placeholder="Choose the period of review")
         date_of_assessment = datetime.now()
-        # start_assessment = st.button(
-        #     label="Start Assessment", key="start_assessment")
 
-        # if start_assessment:
-        #     if not (country_name and assessors_info and period_of_review):
-        #         st.warning(
-        #             "Please fill in all assessment information before proceeding.")
-        #     else:
-        #         st.success("Expand below to conduct assement")
-        #         print(country_name, assessors_info, period_of_review)
         st.divider()
         with st.expander("FSP Policies, Commitment & Political Will"):
             def columns_adder(df, section):
@@ -144,18 +135,7 @@ def main():
         if submit_data:
             append_to_sheet(all_data, "icsps_data_make_a_copy")
             st.success("Successfully submitted!🔔")
-        # if st.button("Calculate Total Score"):
-        # total_score = calculate_total_score(
-        #     fsp_policies_scores + data_scores + analysis_scores + forecasting_supply_planning_scores + funding_adjustments_scores)
-        # st.metric(label="Total Score", value=total_score)
-        # maturity_level = determine_maturity_level(total_score)
-
-        # st.markdown(
-        #     f"# {assessors_info}'s Maturity Level for Review Period {period_of_review}👇 :")
-        # st.markdown(f"## {maturity_level}")
-        # print(datetime.now())
-        # print(country_name, assessors_info, total_score,
-        #       period_of_review, funding_adjustments_scores, analysis_scores)
+            print("Successfully submitted!🔔")
 
 
 if __name__ == "__main__":
