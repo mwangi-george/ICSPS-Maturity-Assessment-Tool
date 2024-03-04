@@ -133,6 +133,7 @@ def main():
             st.dataframe(all_data.reset_index(drop=True), hide_index=True)
             total_score = all_data['score'].sum(skipna=True)
         maturity_level = determine_maturity_level(total_score)
+        all_data["maturity_level"] = maturity_level
         st.markdown("### Your maturity level is:")
         st.markdown(f"#### {maturity_level}")
         st.metric(label="Total Maturity Score", value=total_score)
