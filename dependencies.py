@@ -465,7 +465,7 @@ def funding_adjustments_section():
     return combined_df
 
 
-countries = [
+countries_main = [
     "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda",
     "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain",
     "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia",
@@ -492,6 +492,11 @@ countries = [
     "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
     "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay",
     "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+]
+
+countries = [
+    "Nigeria", "Democratic Republic of the Congo",
+    "Ethiopia", "Mozambique" "Pakistan"
 ]
 
 
