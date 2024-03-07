@@ -496,7 +496,7 @@ countries_main = [
 
 countries = [
     "Nigeria", "Democratic Republic of the Congo",
-    "Ethiopia", "Mozambique" "Pakistan"
+    "Ethiopia", "Mozambique", "Pakistan"
 ]
 
 
