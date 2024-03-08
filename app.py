@@ -67,10 +67,15 @@ def main():
         st.write(instructions)
 
     else:
+        st.divider()
+        st.subheader("Required fields")
         country_name = st.selectbox(
             "Name of Country being assessed", countries, placeholder="Choose country")
-        assessors_info = st.text_input(
-            "Name(s) of person(s) and organization(s) completing the assessment")
+        assessors_name = st.text_input(
+            "Name", placeholder="Enter your name")
+        assessors_affiliation = st.text_input(
+            "Organization", placeholder="Enter your organization's name"
+        )
         period_of_review = st.selectbox(
             "Period of Review", review_periods, placeholder="Choose the period of review")
         date_of_assessment = datetime.now()
@@ -79,7 +84,8 @@ def main():
         with st.expander("FSP Policies, Commitment & Political Will"):
             def columns_adder(df, section):
                 df["country"] = country_name
-                df["assessors_info"] = assessors_info
+                df["assessors_name"] = assessors_name
+                df["assessors_affiliation"] = assessors_affiliation
                 df["period_of_review"] = period_of_review
                 df["date_of_assessment"] = date_of_assessment
                 df["section"] = section
@@ -133,10 +139,16 @@ def main():
         submit_data = st.button(
             label="Submit", key="submit_assessment_df")
 
+        validate_data = [country_name, assessors_name,
+                         assessors_affiliation, period_of_review]
         if submit_data:
-            append_to_sheet(all_data, "icsps_data_make_a_copy")
-            st.success("Successfully submitted!🔔")
-            print("Successfully submitted!🔔")
+            if any(not item for item in validate_data):
+                print("An empty value exists in Required fields")
+                st.error("Required fields cannot be Empty")
+            else:
+                append_to_sheet(all_data, "icsps_data_make_a_copy")
+                st.success("Successfully submitted!🔔")
+                print("Successfully submitted!🔔")
 
 
 if __name__ == "__main__":
