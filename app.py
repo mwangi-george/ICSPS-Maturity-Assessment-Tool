@@ -3,7 +3,7 @@ import pandas as pd
 from streamlit_option_menu import option_menu
 from dependencies import purpose, instructions, project_sections, fsp_policies_section, data_section
 from dependencies import analysis_section, forecasting_supply_planning_section, funding_adjustments_section, countries, review_periods
-from dependencies import append_to_sheet
+from dependencies import append_to_sheet, default_response_note
 from datetime import datetime
 
 
@@ -66,6 +66,7 @@ def main():
         st.title("Instructions")
         st.write(instructions)
 
+        st.write(f":red[{default_response_note}]")
     else:
         st.divider()
         st.subheader("Required fields")
@@ -120,7 +121,11 @@ def main():
                 section="Funding and Adjustments of Forecasts and Supply Plans"
             )
 
-        #
+        with st.expander("Participants List"):
+            participants_list = st.text_area(
+                "Enter List here", placeholder="Please fill the name of each person and their organisation in brackets separated with a comma. e.g. Jane Doe (JSI), John Doe (CHAI)"
+            )
+
         st.divider()
         with st.expander("View Results Table"):
             all_data = pd.concat([
@@ -132,12 +137,13 @@ def main():
             total_score = all_data['score'].sum(skipna=True)
         maturity_level = determine_maturity_level(total_score)
         all_data["maturity_level"] = maturity_level
+        all_data["participants"] = participants_list
         st.markdown("### Your maturity level is:")
         st.markdown(f"#### {maturity_level}")
         st.metric(label="Total Maturity Score", value=total_score)
 
         submit_data = st.button(
-            label="Submit", key="submit_assessment_df")
+            label="Submit", key="submit_assessment_df", type="primary")
 
         validate_data = [country_name, assessors_name,
                          assessors_affiliation, period_of_review]

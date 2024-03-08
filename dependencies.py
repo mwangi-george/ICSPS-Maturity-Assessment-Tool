@@ -46,7 +46,7 @@ particularly the EPI Team, the National Logistics Working Group for Immunization
 If you have any key comments, please provide them in the sections provided at the bottom of each category in the tool.
 
 """
-
+default_response_note = "Please note that for each question the first response is selected by default. It is important to review each question carefully and select the most accurate response before proceeding"
 
 questions = [
     "There is a multidisciplinary team responsible for forecasting and supply planning for vaccines. This can be any working group or unit responsible for FSP in the MOH",
@@ -65,17 +65,17 @@ questions = [
     "Data Comments",
     "Stock status is routinely assessed",
     "Methodology used for forecasting vaccines",
-    "Data from decentralized levels (e.g., regions, districts, facilities) is used to develop the national forecast and supply plan",
+    "Data from the lowest level (e.g., regions, districts, facilities) is used to develop the national forecast and supply plan",
     "Triangulation of data from different sources when developing national forecasts, e.g. EPI forecasting tool, stock management tool (SMT), District Vaccine Data Management Tool (DVD/MT), District Health Information System 2 (DHIS2), ViVa e.t.c",
     "Calculate and update forecasts based on updated data and discussions with stakeholders",
     "Forecasts and supply plans developed (determination of what needs to be ordered by whom and when)",
-    "Forecasting and supply plan report (or supply plan) cover key components of the quantification report (or supply plan), i.e. Forecasting assumptions and considerations, Forecasted quantities, Quantities required to fill the supply pipeline, funding requirement/costs, shipment schedules, including specific lead times where applicable",
+    "Forecasting and supply plan report (or supply plan) covers key components of the quantification report (or supply plan), i.e. Forecasting assumptions and considerations, Forecasted quantities, Quantities required to fill the supply pipeline, funding requirement/costs, shipment schedules, including specific lead times where applicable",
     "Conduct scenario monitoring",
     "Ability to estimate the potential for vaccine expiry",
     "Analysis Comments",
     "Forecasting and supply planning activities included in the EPI work plans",
     "Forecasting and supply planning activities are inclusive of all relevant stakeholders (including implementing partners and donors)",
-    "Regular and routine supply planning meetings scheduled (ideally quarterly at minimum)",
+    "Regular and routine supply planning meetings scheduled and held  (ideally quarterly at minimum)",
     "Forecasting and supply planning meetings review previous actions and recommendations",
     "Flexible to convene ad-hoc meetings to respond to emerging supply planning (SP) needs",
     "Decisions made in a timely and well-coordinated manner",
@@ -250,7 +250,10 @@ def analysis_section():
 
     st.subheader(questions[15])
     forecasting_method_options = [
-        "Demographic/wastage factor-based", "Consumption-based", "Vaccination session-based"]
+        "Historic procurement",
+        "Traditional demographic",
+        "Multiple methods used (including consumption-based)"
+    ]
     forecasting_method = st.radio(
         "Select forecasting methodology:", forecasting_method_options, key="14")
 
@@ -261,8 +264,10 @@ def analysis_section():
         "Select use of decentralized data:", decentralized_data_options, key="15")
 
     st.subheader(questions[17])
-    triangulation_options = ["Data from one source used",
-                             "Data from limited sources used", "Data from all relevant sources used"]
+    triangulation_options = ["Limited data and/ or one source is used for forecasting",
+                             "Data from limited sources used for forecasting",
+                             "Quality data from all relevant and available sources is used for forecasting"
+                             ]
     triangulation = st.radio(
         "Select data triangulation status:", triangulation_options, key="16")
 
@@ -273,14 +278,20 @@ def analysis_section():
         "Select update forecasts status:", update_forecasts_options, key="17")
 
     st.subheader(questions[19])
-    determine_orders_options = ["Unable to determine accurate orders",
-                                "Some accuracy in determining orders", "Accurate determination of orders"]
+    determine_orders_options = [
+        "Forecasts and supply plans are not developed",
+        "Forecasts and supply plans are developed with some of the information documented (what needs to be ordered, by whom, and when the orders should be placed)",
+        "Forecasts and supply plans are developed and documented with what needs to be ordered, by whom, and by when"
+    ]
     determine_orders = st.radio(
         "Select determine orders status:", determine_orders_options, key="18")
 
     st.subheader(questions[20])
-    plan_coverage_options = ["Reports cover 0-2 key components",
-                             "Reports cover at least 3 key components", "Reports cover all 5 key components"]
+    plan_coverage_options = [
+        "The forecasts and supply plan reports cover 0-2 key components of the quantification report",
+        "The forecasts and supply plan reports cover at least 3 key components of the quantification report",
+        "The forecasts and supply plan reports cover all key components of the quantification report"
+    ]
     plan_coverage = st.radio(
         "Select plan coverage status:", plan_coverage_options, key="20")
 
@@ -341,8 +352,11 @@ def forecasting_supply_planning_section():
         "Select stakeholders inclusion status:", stakeholders_options, key="24")
 
     st.subheader(questions[26])
-    meetings_options = ["Meetings not being held",
-                        "Irregular/ad-hoc meetings", "Regularly scheduled meetings"]
+    meetings_options = [
+        "Supply planning meetings are not being held",
+        "Supply planning meetings are irregular/ ad-hoc and unplanned",
+        "Supply planning meetings are regularly scheduled and held, and frequent enough for decisions to be made"
+    ]
     meetings_status = st.radio(
         "Select supply planning meetings status:", meetings_options, key="25")
 
