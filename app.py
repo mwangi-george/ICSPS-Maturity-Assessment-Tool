@@ -123,7 +123,7 @@ def main():
 
         with st.expander("Participants List"):
             participants_list = st.text_area(
-                "Enter List here", placeholder="Please fill the name of each person and their organisation in brackets separated with a comma. e.g. Jane Doe (JSI), John Doe (CHAI)"
+                " ", placeholder="Please fill the name of each person and their organisation in brackets separated with a comma. e.g. Jane Doe (JSI), John Doe (CHAI)"
             )
 
         st.divider()
