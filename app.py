@@ -75,7 +75,7 @@ def main():
         with c2:
             st.image("www/VR.png")
         with c3:
-            st.image("www/CHAI.jpg")
+            st.image("www/CHAI.JPG")
         with c4:
             st.image("www/IHL.png")
         with c5:
