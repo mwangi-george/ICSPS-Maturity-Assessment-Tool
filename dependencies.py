@@ -520,8 +520,6 @@ review_periods = [
 
 # Authenticate with Google Drive
 
-# Authenticate with Google Drive
-
 
 def authenticate():
     scope = ["https://spreadsheets.google.com/feeds",
@@ -550,8 +548,12 @@ def append_to_sheet(df, sheet_name):
     sheet = client.open(sheet_name).sheet1  # Change the sheet name as needed
     existing_data = sheet.get_all_records()
     existing_df = pd.DataFrame(existing_data)
-    combined_df = pd.concat([existing_df, df], ignore_index=True)
-    set_with_dataframe(sheet, combined_df)
+
+    if (df["country"].isin(existing_df["country"]).all() and df["period_of_review"].isin(existing_df["period_of_review"]).all()):
+        st.error("This data already exists")
+    else:
+        combined_df = pd.concat([existing_df, df], ignore_index=True)
+        set_with_dataframe(sheet, combined_df)
 
 
 if __name__ == "__main__":

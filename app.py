@@ -16,7 +16,7 @@ project_title_short = "ICSPS " + tool_purpose
 
 st.set_page_config(
     page_title=project_title_short,
-    layout="centered"
+    layout="wide"
 )
 
 selected = option_menu(
@@ -67,6 +67,20 @@ def main():
         st.write(instructions)
 
         st.write(f":red[{default_response_note}]")
+
+        st.divider()
+        c1, c2, c3, c4, c5 = st.columns(5)
+        with c1:
+            st.image("www/JSI.jpg")
+        with c2:
+            st.image("www/VR.png")
+        with c3:
+            st.image("www/CHAI.jpg")
+        with c4:
+            st.image("www/IHL.png")
+        with c5:
+            st.image("www/WI-HER.png")
+        st.divider()
     else:
         st.divider()
         st.subheader("Required fields")
@@ -135,6 +149,7 @@ def main():
 
             st.dataframe(all_data.reset_index(drop=True), hide_index=True)
             total_score = all_data['score'].sum(skipna=True)
+
         maturity_level = determine_maturity_level(total_score)
         all_data["maturity_level"] = maturity_level
         all_data["participants"] = participants_list
@@ -152,9 +167,13 @@ def main():
                 print("An empty value exists in Required fields")
                 st.error("Required fields cannot be Empty")
             else:
-                append_to_sheet(all_data, "icsps_data_make_a_copy")
-                st.success("Successfully submitted!🔔")
-                print("Successfully submitted!🔔")
+                try:
+                    append_to_sheet(all_data, "icsps_data_make_a_copy")
+                except Exception as e:
+                    print(e)
+                else:
+                    st.success("Successfully submitted!🔔")
+                    print("Successfully submitted!🔔")
 
 
 if __name__ == "__main__":
