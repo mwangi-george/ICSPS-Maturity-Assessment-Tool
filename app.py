@@ -171,6 +171,7 @@ def main():
                     append_to_sheet(all_data, "icsps_data_make_a_copy")
                 except Exception as e:
                     print(e)
+                    st.error("Could not save Data")
                 else:
                     st.success("Successfully submitted!🔔")
                     print("Successfully submitted!🔔")
