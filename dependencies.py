@@ -46,7 +46,7 @@ particularly the EPI Team, the National Logistics Working Group for Immunization
 If you have any key comments, please provide them in the sections provided at the bottom of each category in the tool.
 
 """
-default_response_note = "Before you proceed to fill out this digital tool, ensure to first complete a paper-based version. Only input data into the digital tool once the team has collectively agreed upon the responses. Please note that for each question the first response is selected by default. It is important to review each question carefully and select the most accurate response before proceeding"
+default_response_note = "Before you proceed to fill out this digital tool, ensure to first complete a paper-based version. Only input data into the digital tool once the team has collectively agreed upon the responses."
 
 questions = [
     "There is a multidisciplinary team responsible for forecasting and supply planning for vaccines. This can be any working group or unit responsible for FSP in the MOH",
