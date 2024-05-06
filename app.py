@@ -69,17 +69,8 @@ def main():
         st.write(f":red[{default_response_note}]")
 
         st.divider()
-        c1, c2, c3, c4, c5 = st.columns(5)
-        with c1:
-            st.image("www/JSI.jpg")
-        with c2:
-            st.image("www/VR.png")
-        with c3:
-            st.image("www/CHAI.JPG")
-        with c4:
-            st.image("www/IHL.png")
-        with c5:
-            st.image("www/WI-HER.png")
+        st.image("www/combined_logos_1.png",
+                 use_column_width="always", clamp=True, width=250)
         st.divider()
     else:
         st.divider()
