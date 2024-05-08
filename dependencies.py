@@ -26,8 +26,8 @@ The tool looks at various characteristics in five broad categories for effective
     1. FSP Policies, Commitment and Political Will, 
     2. Data, 
     3. Analysis, 
-    4. Forecasting, and Supply Planning Activities, 
-    5. and Funding and Adjustments of Forecasts and Supply Plans. 
+    4. Forecasting, and Supply Planning Activities
+    5. Funding and Adjustments of Forecasts and Supply Plans. 
 
 These characteristics holistically contribute to strengthening the forecasting and supply planning practices through the collaborative efforts of all relevant stakeholders in-country, thus achieving the desired state of proactive forecasting and supply planning. 
 The assessment results map countries into 3 phases: ad-hoc forecasting and supply planning, reactive forecasting and supply planning, and proactive forecasting and supply planning, with the last being the ideal. 
