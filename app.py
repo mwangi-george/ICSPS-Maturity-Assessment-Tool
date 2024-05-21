@@ -159,7 +159,7 @@ def main():
                 st.error("Required fields cannot be Empty")
             else:
                 try:
-                    append_to_sheet(all_data, "icsps_data_make_a_copy")
+                    append_to_sheet(all_data, "icsps_data_do_not_edit")
                 except Exception as e:
                     print(e)
                     st.error("Could not save Data")
