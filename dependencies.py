@@ -576,7 +576,8 @@ def authenticate():
 
 def append_to_sheet(df, sheet_name):
     client = authenticate()
-    sheet = client.open(sheet_name).sheet1  # Change the sheet name as needed
+    # Change the sheet name as needed
+    sheet = client.open(sheet_name).sheet1
     existing_data = sheet.get_all_records()
     existing_df = pd.DataFrame(existing_data)
 
