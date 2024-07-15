@@ -1,10 +1,15 @@
 import streamlit as st
 import pandas as pd
-from streamlit_option_menu import option_menu
-from dependencies import purpose, instructions, project_sections, fsp_policies_section, data_section
-from dependencies import analysis_section, forecasting_supply_planning_section, funding_adjustments_section, countries, review_periods
-from dependencies import append_to_sheet, default_response_note
 from datetime import datetime
+from streamlit_option_menu import option_menu
+from dependencies import (
+    purpose, instructions, project_sections,
+    fsp_policies_section, data_section,
+    analysis_section, forecasting_supply_planning_section,
+    funding_adjustments_section,
+    countries, review_periods,
+    append_to_sheet, default_response_note,
+)
 
 
 # Create the bulleted list using Markdown syntax
