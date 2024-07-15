@@ -153,6 +153,7 @@ def main():
         st.markdown(f"#### {maturity_level}")
         st.metric(label="Total Maturity Score", value=total_score)
 
+
         submit_data = st.button(
             label="Submit", key="submit_assessment_df", type="primary")
 
@@ -165,6 +166,7 @@ def main():
             else:
                 try:
                     append_to_sheet(all_data, "Improved - Version for ICSPS")
+                    append_to_sheet(all_data, "icsps_data_for_pbi")
                 except Exception as e:
                     print(e)
                     st.error("Could not save Data")
