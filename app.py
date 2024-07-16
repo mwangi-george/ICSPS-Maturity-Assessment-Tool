@@ -16,7 +16,7 @@ from dependencies import (
 bullet_list = "\n".join([f"- {item}" for item in project_sections])
 
 project_title = "Immunization Collaborative Supply Planning Strengthening Project"
-tool_purpose = "Maturity Assessment Tool"
+tool_purpose = "[Maturity Assessment Tool](https://docs.google.com/document/d/11vSKQsH7er_H3pn0sd5dbor7ePRbyR3A/edit)"
 project_title_short = "ICSPS " + tool_purpose
 
 st.set_page_config(
@@ -160,10 +160,12 @@ def main():
                          assessors_affiliation, period_of_review]
         if submit_data:
             if any(not item for item in validate_data):
+                print("An empty value exists in Required fields")
                 st.error("Required fields cannot be Empty")
             else:
                 try:
-                    append_to_sheet(all_data, "icsps_data_for_pbi")
+                    append_to_sheet(all_data, "Improved - Version for ICSPS")
+                    # append_to_sheet(all_data, "icsps_data_for_pbi")
                 except Exception as e:
                     print(e)
                     st.error("Could not save Data")
