@@ -539,6 +539,7 @@ def authenticate():
         "auth_provider_x509_cert_url": os.environ["GOOGLE_AUTH_PROVIDER_X509_CERT_URL"],
         "client_x509_cert_url": os.environ["GOOGLE_CLIENT_X509_CERT_URL"]
     }
+
     creds = service_account.Credentials.from_service_account_info(
         creds_dict, scopes=scope)
     client = gspread.authorize(creds)
