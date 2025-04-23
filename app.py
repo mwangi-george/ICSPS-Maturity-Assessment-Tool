@@ -64,7 +64,25 @@ def main():
             f"This tool is used to assess the maturity of a country in terms of forecasting and supply planning for vaccines. For immunization forecasting and supply planning to be effective, it must be proactive rather than reactive. The tool looks at various characteristics in five broad categories for effective forecasting and supply planning:"
         )
         st.markdown(bullet_list)
-        st.markdown(" These characteristics holistically contribute to strengthening the forecasting and supply planning practices through the collaborative efforts of all relevant stakeholders in-country thus achieving the desired state of proactive forecasting and supply planning. The assessment results are used to map countries into 3 phases: ad-hoc forecasting and supply planning, reactive forecasting and supply planning, and proactive forecasting and supply planning, with the last being the ideal. Routine monitoring of vaccines by countries ensures that countries maintain adequate stocks of vaccines, align demand for vaccines with supply, and minimize stockouts or the need to destroy vaccines due to expiries.")
+        st.markdown(" These characteristics holistically contribute to strengthening the forecasting and supply planning practices
+through the collaborative efforts of all relevant stakeholders in-country, thus achieving the desired state of
+proactive forecasting and supply planning. The assessment results map countries into 3 phases: ad-hoc
+forecasting and supply planning, reactive forecasting and supply planning, and proactive forecasting and
+supply planning, with the last being the ideal. Routine monitoring of vaccines by countries ensures that
+countries maintain adequate stocks of vaccines, align demand for vaccines with supply, and minimize
+stockouts or the need to destroy vaccines due to expiries.
+The tool also considers gender, equity and social inclusion (GESI), which refers to the intentional
+consideration of how different groups—such as women, men, adolescents, people with disabilities, and those
+in remote or underserved areas—experience access to health services, including immunization. In the context
+of FSP, integrating a GESI lens does not expand the technical mandate of FSP, which remains focused on
+estimating vaccine needs and planning for timely and adequate supply. Rather, it strengthens the quality and
+responsiveness of FSP by improving the accuracy of assumptions, supporting equity-aware adjustments, and
+helping ensure no population is left behind. GESI integration in FSP includes the use of disaggregated data
+(e.g., by sex, age, geography) where available, meaningful coordination with technical GESI expertise to inform
+planning, and intentional efforts to ensure diverse representation within FSP teams. These components help
+ensure that forecasts and supply plans are based on a realistic understanding of who is being reached, who is
+not, and why—without asking FSP teams to lead or fund service delivery or outreach efforts. Instead, GESI
+integration enables FSP to better align with broader equity goals while staying fully within its technical scope.")
 
         st.divider()
 
