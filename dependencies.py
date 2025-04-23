@@ -14,8 +14,8 @@ project_sections = [
     "Data",
     "Analysis",
     "Forecasting and Supply Planning Activities",
+    "Funding and Adjustments of Forecasts and Supply Plans",
     "Gender, equity and social inclusion (GESI)."
-    "Funding and Adjustments of Forecasts and Supply Plans"
 ]
 
 
