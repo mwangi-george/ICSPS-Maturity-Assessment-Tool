@@ -7,7 +7,6 @@ from dependencies import (
     append_to_sheet, default_response_note,
 )
 
-
 # Create the bulleted list using Markdown syntax
 bullet_list = "\n".join([f"- {item}" for item in project_sections])
 
