@@ -1,7 +1,3 @@
-import streamlit as st
-import pandas as pd
-from datetime import datetime
-from streamlit_option_menu import option_menu
 from dependencies import (
     purpose, instructions, project_sections,
     fsp_policies_section, data_section,
