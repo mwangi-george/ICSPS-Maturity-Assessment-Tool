@@ -15,6 +15,7 @@ project_sections = [
     "Analysis",
     "Forecasting and Supply Planning Activities",
     "Funding and Adjustments of Forecasts and Supply Plans"
+    " Gender, equity and social inclusion (GESI)."
 ]
 
 
@@ -27,20 +28,20 @@ The tool looks at various characteristics in five broad categories for effective
     2. Data, 
     3. Analysis, 
     4. Forecasting, and Supply Planning Activities
-    5. Funding and Adjustments of Forecasts and Supply Plans. 
+    5. Funding and Adjustments of Forecasts and Supply Plans
+    6. Gender, equity and social inclusion (GESI).
 
-These characteristics holistically contribute to strengthening the forecasting and supply planning practices through the collaborative efforts of all relevant stakeholders in-country, thus achieving the desired state of proactive forecasting and supply planning. 
-The assessment results map countries into 3 phases: ad-hoc forecasting and supply planning, reactive forecasting and supply planning, and proactive forecasting and supply planning, with the last being the ideal. 
-Routine monitoring of vaccines by countries ensures that countries maintain adequate stocks of vaccines, align demand for vaccines with supply, and minimize stockouts or the need to destroy vaccines due to expiries.
+These characteristics holistically contribute to strengthening the forecasting and supply planning practices through the collaborative efforts of all relevant stakeholders in-country, thus achieving the desired state of proactive forecasting and supply planning. The assessment results map countries into 3 phases: ad-hoc forecasting and supply planning, reactive forecasting and supply planning, and proactive forecasting and supply planning, with the last being the ideal. Routine monitoring of vaccines by countries ensures that countries maintain adequate stocks of vaccines, align demand for vaccines with supply, and minimize stockouts or the need to destroy vaccines due to expiries.
+The tool also considers gender, equity and social inclusion (GESI), which refers to the intentional consideration of how different groups—such as women, men, adolescents, people with disabilities, and those in remote or underserved areas—experience access to health services, including immunization. In the context of FSP, integrating a GESI lens does not expand the technical mandate of FSP, which remains focused on estimating vaccine needs and planning for timely and adequate supply. Rather, it strengthens the quality and responsiveness of FSP by improving the accuracy of assumptions, supporting equity-aware adjustments, and helping ensure no population is left behind. GESI integration in FSP includes the use of disaggregated data (e.g., by sex, age, geography) where available, meaningful coordination with technical GESI expertise to inform planning, and intentional efforts to ensure diverse representation within FSP teams. These components help ensure that forecasts and supply plans are based on a realistic understanding of who is being reached, who is not, and why—without asking FSP teams to lead or fund service delivery or outreach efforts. Instead, GESI integration enables FSP to better align with broader equity goals while staying fully within its technical scope.
+
 """
 
 instructions = """
 The tool will be completed by country EPI teams participating in the ICSPS initiative. 
 For each of the questions, please select the answer that best describes the status in the country, particularly the EPI Team, the National Logistics Working Group for Immunization, or any other task force/body in the country that is responsible for supply and demand planning for vaccines within the country.  
-
 If you have any key comments, please provide them in the sections at the bottom of each category in the tool.
-The assessment will be completed every quarter to show progress over time. The assessment results will help countries pinpoint and prioritize areas needing improvement. Then, teams will use these findings to create action plans for implementation.
-
+The assessment will be completed every quarter to show progress over time. The assessment results will help countries pinpoint and prioritize areas needing improvement. Then, teams will use these findings to create action plans for implementation
+ 
 """
 default_response_note = "Before you proceed to fill out this digital tool, ensure to first complete a paper-based version. Only input data into the digital tool once the team has collectively agreed upon the responses."
 
@@ -84,6 +85,14 @@ questions = [
     "Funding is available in a timely manner for total commodity requirement",
     "Funding is available to implement the recommended supply plan adjustments in a timely manner",
     "Funding and Adjustments of Forecasts and Supply Plans Comments"
+    "Inclusion of relevant stakeholders in the FSP process include GESI experts. This may consist of technical experts, representatives from underserved groups, and/or organizations working on equity and inclusion whose insights help ensure that FSP decisions are responsive to the needs of all population groups. Their contributions may support more accurate assumptions and improve equity in immunization planning"
+    "The team responsible for FSP for vaccines is gender-balanced, socially inclusive and representative of diverse groups, including individuals from under-served groups."
+    "GESI considerations are included and/or integrated into vaccine FSP work plans, MoUs or TORs–either as stand-alone or anchored within broader program documents. This may include collecting and using sex-, age-, and location-disaggregated data, engaging GESI experts and stakeholders, and ensuring that FSP processes align with broader strategies to reach underserved populations. While FSP teams do not directly design or fund access strategies, they play a critical role in ensuring that supply planning reflects these strategies."
+    "Availability of data disaggregated by sex, age, and geographic location"
+    "The methodology used for vaccine forecasting accounts for planned efforts to reach underserved or hard-to-reach populations, ensuring that supply planning aligns with equitable delivery goals."
+    "Impact of supply chain risks on underserved and hard-to-reach populations is reviewed and considered during routine supply plan monitoring."
+    "Funding is available to implement the recommended supply plan adjustments–including those responding to equity-related risks or reaching underserved populations."
+    "Gender Equity and Social Inclusion Comments"
 ]
 
 questions_df = pd.DataFrame(questions, columns=["questions"])
