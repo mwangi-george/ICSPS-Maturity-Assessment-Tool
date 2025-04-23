@@ -15,6 +15,7 @@ project_sections = [
     "Analysis",
     "Forecasting and Supply Planning Activities",
     "Funding and Adjustments of Forecasts and Supply Plans"
+    
     "Gender, equity and social inclusion (GESI)."
 ]
 
@@ -29,6 +30,7 @@ The tool looks at various characteristics in five broad categories for effective
     3. Analysis, 
     4. Forecasting, and Supply Planning Activities
     5. Funding and Adjustments of Forecasts and Supply Plans
+    
     6. Gender, equity and social inclusion (GESI).
 
 These characteristics holistically contribute to strengthening the forecasting and supply planning practices through the collaborative efforts of all relevant stakeholders in-country, thus achieving the desired state of proactive forecasting and supply planning. The assessment results map countries into 3 phases: ad-hoc forecasting and supply planning, reactive forecasting and supply planning, and proactive forecasting and supply planning, with the last being the ideal. Routine monitoring of vaccines by countries ensures that countries maintain adequate stocks of vaccines, align demand for vaccines with supply, and minimize stockouts or the need to destroy vaccines due to expiries.
