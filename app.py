@@ -3,10 +3,11 @@ import pandas as pd
 from datetime import datetime
 from streamlit_option_menu import option_menu
 from dependencies import (
-    purpose, instructions, project_sections,
+    instructions, project_sections,
     fsp_policies_section, data_section,
     analysis_section, forecasting_supply_planning_section,
     funding_adjustments_section,
+    gesi_section,
     countries, review_periods,
     append_to_sheet, default_response_note,
 )

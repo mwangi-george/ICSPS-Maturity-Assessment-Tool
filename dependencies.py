@@ -14,24 +14,40 @@ project_sections = [
     "Data",
     "Analysis",
     "Forecasting and Supply Planning Activities",
-    "Funding and Adjustments of Forecasts and Supply Plans"
+    "Funding and Adjustments of Forecasts and Supply Plans",
+    "Gender, equity and social inclusion (GESI)"
 ]
 
 
 purpose = """
-This tool assesses a country's vaccine forecasting and supply planning maturity. 
-To be effective, immunization forecasting and supply planning must be proactive rather than reactive. 
-The tool looks at various characteristics in five broad categories for effective forecasting and supply planning:
-
-    1. FSP Policies, Commitment and Political Will, 
-    2. Data, 
-    3. Analysis, 
-    4. Forecasting, and Supply Planning Activities
-    5. Funding and Adjustments of Forecasts and Supply Plans. 
-
-These characteristics holistically contribute to strengthening the forecasting and supply planning practices through the collaborative efforts of all relevant stakeholders in-country, thus achieving the desired state of proactive forecasting and supply planning. 
-The assessment results map countries into 3 phases: ad-hoc forecasting and supply planning, reactive forecasting and supply planning, and proactive forecasting and supply planning, with the last being the ideal. 
-Routine monitoring of vaccines by countries ensures that countries maintain adequate stocks of vaccines, align demand for vaccines with supply, and minimize stockouts or the need to destroy vaccines due to expiries.
+This tool assesses a country's vaccine forecasting and supply planning maturity. To be effective,
+immunization forecasting and supply planning must be proactive rather than reactive. The tool looks at
+various characteristics in five broad categories for effective forecasting and supply planning:
+● FSP Policies, Commitment, and Political Will
+● Data
+● Analysis
+● Forecasting and Supply Planning Activities
+● Funding and Adjustments of Forecasts and Supply Plans.
+● Gender, equity and social inclusion (GESI)
+These characteristics holistically contribute to strengthening the forecasting and supply planning practices
+through the collaborative efforts of all relevant stakeholders in-country, thus achieving the desired state of
+proactive forecasting and supply planning. The assessment results map countries into 3 phases: ad-hoc
+forecasting and supply planning, reactive forecasting and supply planning, and proactive forecasting and
+supply planning, with the last being the ideal. Routine monitoring of vaccines by countries ensures that
+countries maintain adequate stocks of vaccines, align demand for vaccines with supply, and minimize
+stockouts or the need to destroy vaccines due to expiries.
+The tool also considers gender, equity and social inclusion (GESI), which refers to the intentional
+consideration of how different groups—such as women, men, adolescents, people with disabilities, and those
+in remote or underserved areas—experience access to health services, including immunization. In the context
+of FSP, integrating a GESI lens does not expand the technical mandate of FSP, which remains focused on
+estimating vaccine needs and planning for timely and adequate supply. Rather, it strengthens the quality and
+responsiveness of FSP by improving the accuracy of assumptions, supporting equity-aware adjustments, and
+helping ensure no population is left behind. GESI integration in FSP includes the use of disaggregated data
+(e.g., by sex, age, geography) where available, meaningful coordination with technical GESI expertise to inform
+planning, and intentional efforts to ensure diverse representation within FSP teams. These components help
+ensure that forecasts and supply plans are based on a realistic understanding of who is being reached, who is
+not, and why—without asking FSP teams to lead or fund service delivery or outreach efforts. Instead, GESI
+integration enables FSP to better align with broader equity goals while staying fully within its technical scope.
 """
 
 instructions = """
@@ -84,6 +100,14 @@ questions = [
     "Funding is available in a timely manner for total commodity requirement",
     "Funding is available to implement the recommended supply plan adjustments in a timely manner",
     "Funding and Adjustments of Forecasts and Supply Plans Comments"
+    "Inclusion of relevant stakeholders in the FSP process include GESI experts. This may consist of technical experts, representatives from underserved groups, and/or organizations working on equity and inclusion whose insights help ensure that FSP decisions are responsive to the needs of all population groups.",
+    "The team responsible for FSP for vaccines is gender-balanced, socially inclusive and representative of diverse groups, including individuals from under-served groups.",
+    "GESI considerations are included and/or integrated into vaccine FSP work plans, MoUs or TORs–either as stand-alone or anchored within broader program documents.",
+    "Availability of data disaggregated by sex, age, and geographic location.",
+    "The methodology used for vaccine forecasting accounts for planned efforts to reach underserved or hard-to-reach populations.",
+    "Impact of supply chain risks on underserved and hard-to-reach populations is reviewed and considered during routine supply plan monitoring.",
+    "Funding is available to implement the recommended supply plan adjustments–including those responding to equity-related risks or reaching underserved populations.",
+    "Gender Equity and Social Inclusion Comments"
 ]
 
 questions_df = pd.DataFrame(questions, columns=["questions"])
@@ -509,6 +533,89 @@ def funding_adjustments_section():
 
     return combined_df
 
+def gesi_section():
+    
+
+    st.subheader(questions[39])
+    inclusion_options = [
+        "No GESI representation or engagement",
+        "Some engagement but not consistent",
+        "Active inclusion of GESI experts and stakeholders"
+    ]
+    inclusion_status = st.radio("Select inclusion level:", inclusion_options, key="gesi_40", index=None)
+
+    st.subheader(questions[40])
+    balance_options = [
+        "FSP team lacks gender and social inclusion",
+        "Team includes some diversity",
+        "Team is gender-balanced and inclusive"
+    ]
+    balance_status = st.radio("Select team composition:", balance_options, key="gesi_41", index=None)
+
+    st.subheader(questions[41])
+    integration_options = [
+        "No GESI integration in documentation",
+        "Partial or draft inclusion",
+        "Comprehensive GESI integration"
+    ]
+    integration_status = st.radio("Select GESI integration status:", integration_options, key="gesi_42", index=None)
+
+    st.subheader(questions[42])
+    data_options = [
+        "Disaggregated data unavailable",
+        "Partial disaggregation (e.g. by sex only)",
+        "Comprehensive disaggregated data available"
+    ]
+    data_status = st.radio("Select data disaggregation status:", data_options, key="gesi_43", index=None)
+
+    st.subheader(questions[43])
+    methodology_options = [
+        "Forecasts don’t include underserved population planning",
+        "Some effort to include underserved groups",
+        "Forecasting explicitly includes underserved groups"
+    ]
+    methodology_status = st.radio("Select equity integration in forecasting:", methodology_options, key="gesi_44", index=None)
+
+    st.subheader(questions[44])
+    risk_options = [
+        "Risks to underserved populations not considered",
+        "Risks discussed but not routinely addressed",
+        "Risks are routinely monitored and planned for"
+    ]
+    risk_status = st.radio("Select risk monitoring status:", risk_options, key="gesi_45", index=None)
+
+    st.subheader(questions[45])
+    funding_options = [
+        "No funding for equity-related adjustments",
+        "Limited or delayed funding",
+        "Funding timely and sufficient for equity-related adjustments"
+    ]
+    funding_status = st.radio("Select equity-related funding availability:", funding_options, key="gesi_46", index=None)
+
+    st.subheader(questions[46])
+    comments = st.text_area("Provide comments on GESI:", key="gesi_comment")
+
+    responses = [
+        inclusion_status, balance_status, integration_status, data_status,
+        methodology_status, risk_status, funding_status, comments
+    ]
+    questions_df = pd.DataFrame(questions, columns=["question"])
+    answers_df = pd.DataFrame(responses, columns=["answer"])
+
+    scores = [
+        calculate_score(inclusion_options, inclusion_status),
+        calculate_score(balance_options, balance_status),
+        calculate_score(integration_options, integration_status),
+        calculate_score(data_options, data_status),
+        calculate_score(methodology_options, methodology_status),
+        calculate_score(risk_options, risk_status),
+        calculate_score(funding_options, funding_status)
+    ]
+    scores_df = pd.DataFrame(scores, columns=["score"])
+
+    combined_df = pd.concat([questions_df, answers_df, scores_df], axis=1)
+    return combined_df
+
 
 countries = [
     "Nigeria", "Democratic Republic of the Congo",
@@ -517,7 +624,7 @@ countries = [
 
 
 review_periods = [
-    "Q1 2024", "Q2 2024", "Q3 2024", "Q4 2024"
+    "Q1 2024", "Q2 2024", "Q3 2024", "Q4 2024","Q1 2025", "Q2 2025", "Q3 2025","Q4 2025"
 ]
 
 # Authenticate with Google Drive
