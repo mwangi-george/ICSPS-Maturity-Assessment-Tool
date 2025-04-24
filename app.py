@@ -1,11 +1,4 @@
-from dependencies import (
-    purpose, instructions, project_sections,
-    fsp_policies_section, data_section,
-    analysis_section, forecasting_supply_planning_section,
-    funding_adjustments_section,
-    countries, review_periods,
-    append_to_sheet, default_response_note,
-)
+from dependencies import purpose, instructions, project_sections, fsp_policies_section, data_section,  analysis_section, forecasting_supply_planning_section, funding_adjustments_section, countries, review_periods, append_to_sheet, default_response_note
 
 # Create the bulleted list using Markdown syntax
 bullet_list = "\n".join([f"- {item}" for item in project_sections])
