@@ -99,13 +99,13 @@ questions = [
     "Recommended adjustments are made in a timely and complete fashion",
     "Funding is available in a timely manner for total commodity requirement",
     "Funding and Adjustments of Forecasts and Supply Plans Comments",
-    "Inclusion of relevant stakeholders in the FSP process include GESI experts. This may consist of technical experts, representatives from underserved groups, and/or organizations working on equity and inclusion whose insights help ensure that FSP decisions are responsive to the needs of all population groups. Their contributions may support more accurate assumptions and improve equity in immunization planning",
-    "The team responsible for FSP for vaccines is gender-balanced, socially inclusive and representative of diverse groups, including individuals from under-served groups.",
-    "GESI considerations are included and/or integrated into vaccine FSP work plans, MoUs or TORs–either as stand-alone or anchored within broader program documents. This may include collecting and using sex-, age-, and location-disaggregated data, engaging GESI experts and stakeholders, and ensuring that FSP processes align with broader strategies to reach underserved populations. While FSP teams do not directly design or fund access strategies, they play a critical role in ensuring that supply planning reflects these strategies.",
+    "Relevant stakeholders, including GESI experts, are included in the FSP process to ensure decisions reflect the needs of all population groups.",
+    "FSP team is diverse, gender-balanced, and socially inclusive.",
+    "GESI is integrated into FSP plans, MoUs, or TORs, with alignment to equity strategies and use of disaggregated data.",
     "Availability of data disaggregated by sex, age, and geographic location",
-    "The methodology used for vaccine forecasting accounts for planned efforts to reach underserved or hard-to-reach populations, ensuring that supply planning aligns with equitable delivery goals.",
-    "Impact of supply chain risks on underserved and hard-to-reach populations is reviewed and considered during routine supply plan monitoring.",
-    "Funding is available to implement the recommended supply plan adjustments–including those responding to equity-related risks or reaching underserved populations.",
+    "Forecasting methodology includes efforts to reach underserved populations and supports equitable supply planning.",
+    "Supply chain risks for underserved populations are routinely reviewed during supply plan monitoring.",
+    "Funding supports supply plan adjustments, including those addressing equity and underserved populations.",
     "Gender Equity and Social Inclusion Comments"
 ]
 
