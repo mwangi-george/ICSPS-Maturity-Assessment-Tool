@@ -53,12 +53,12 @@ integration enables FSP to better align with broader equity goals while staying 
 instructions = """
 The tool will be completed by country EPI teams participating in the ICSPS initiative. 
 For each of the questions, please select the answer that best describes the status in the country, particularly the EPI Team, the National Logistics Working Group for Immunization, or any other task force/body in the country that is responsible for supply and demand planning for vaccines within the country.  
-
 If you have any key comments, please provide them in the sections at the bottom of each category in the tool.
-The assessment will be completed every quarter to show progress over time. The assessment results will help countries pinpoint and prioritize areas needing improvement. Then, teams will use these findings to create action plans for implementation.
-
+The assessment will be completed every quarter to show progress over time. The assessment results will help countries pinpoint and prioritize areas needing improvement. Then, teams will use these findings to create action plans for implementation
 """
+
 default_response_note = "Before you proceed to fill out this digital tool, ensure to first complete a paper-based version. Only input data into the digital tool once the team has collectively agreed upon the responses."
+
 
 questions = [
     "There is a multidisciplinary team responsible for forecasting and supply planning for vaccines. This can be any working group or unit responsible for FSP in the MOH",
@@ -98,17 +98,18 @@ questions = [
     "Recommended adjustments are communicated to all relevant stakeholders",
     "Recommended adjustments are made in a timely and complete fashion",
     "Funding is available in a timely manner for total commodity requirement",
-    "Funding is available to implement the recommended supply plan adjustments in a timely manner",
-    "Funding and Adjustments of Forecasts and Supply Plans Comments"
-    "Inclusion of relevant stakeholders in the FSP process include GESI experts. This may consist of technical experts, representatives from underserved groups, and/or organizations working on equity and inclusion whose insights help ensure that FSP decisions are responsive to the needs of all population groups.",
+    "Funding and Adjustments of Forecasts and Supply Plans Comments",
+    "Inclusion of relevant stakeholders in the FSP process include GESI experts. This may consist of technical experts, representatives from underserved groups, and/or organizations working on equity and inclusion whose insights help ensure that FSP decisions are responsive to the needs of all population groups. Their contributions may support more accurate assumptions and improve equity in immunization planning",
     "The team responsible for FSP for vaccines is gender-balanced, socially inclusive and representative of diverse groups, including individuals from under-served groups.",
-    "GESI considerations are included and/or integrated into vaccine FSP work plans, MoUs or TORs–either as stand-alone or anchored within broader program documents.",
-    "Availability of data disaggregated by sex, age, and geographic location.",
-    "The methodology used for vaccine forecasting accounts for planned efforts to reach underserved or hard-to-reach populations.",
+    "GESI considerations are included and/or integrated into vaccine FSP work plans, MoUs or TORs–either as stand-alone or anchored within broader program documents. This may include collecting and using sex-, age-, and location-disaggregated data, engaging GESI experts and stakeholders, and ensuring that FSP processes align with broader strategies to reach underserved populations. While FSP teams do not directly design or fund access strategies, they play a critical role in ensuring that supply planning reflects these strategies.",
+    "Availability of data disaggregated by sex, age, and geographic location",
+    "The methodology used for vaccine forecasting accounts for planned efforts to reach underserved or hard-to-reach populations, ensuring that supply planning aligns with equitable delivery goals.",
     "Impact of supply chain risks on underserved and hard-to-reach populations is reviewed and considered during routine supply plan monitoring.",
     "Funding is available to implement the recommended supply plan adjustments–including those responding to equity-related risks or reaching underserved populations.",
     "Gender Equity and Social Inclusion Comments"
 ]
+
+
 
 questions_df = pd.DataFrame(questions, columns=["questions"])
 
@@ -496,24 +497,18 @@ def funding_adjustments_section():
     total_funding_status = st.radio(
         "Select total funding availability status:", total_funding_options, index=None)
 
-    st.subheader(questions[37])
-    adjustments_funding_options = ["Funding not available for recommended adjustments",
-                                   "Limited funding available for recommended adjustments", "Funding available for recommended adjustments"]
-    adjustments_funding_status = st.radio(
-        "Select adjustments funding availability status:", adjustments_funding_options, index=None)
 
-    st.subheader(questions[38])
+    st.subheader(questions[37])
     comments = st.text_area("Provide comments here:", key="funding_adjst")
 
     responses = [
         results_communication_status, adjustments_communication_status,
-        adjustments_implementation_status, total_funding_status,
-        adjustments_funding_status, comments
+        adjustments_implementation_status, total_funding_status, comments
     ]
 
     answers_df = pd.DataFrame(responses, columns=["answer"])
     questions_answers_df = pd.concat(
-        [questions_df[33:].reset_index(drop=True), answers_df], axis=1)
+        [questions_df[33:38].reset_index(drop=True), answers_df], axis=1)
 
     scores = [
         calculate_score(results_communication_options,
@@ -523,8 +518,7 @@ def funding_adjustments_section():
         calculate_score(adjustments_implementation_options,
                         adjustments_implementation_status),
         calculate_score(total_funding_options, total_funding_status),
-        calculate_score(adjustments_funding_options,
-                        adjustments_funding_status)
+        
     ]
 
     scores_df = pd.DataFrame(scores, columns=["score"])
@@ -534,72 +528,70 @@ def funding_adjustments_section():
     return combined_df
 
 def gesi_section():
-    
-
-    st.subheader(questions[39])
+    st.subheader(questions[38])  # Q40: Inclusion of relevant stakeholders including GESI experts
     inclusion_options = [
-        "No GESI representation or engagement",
-        "Some engagement but not consistent",
-        "Active inclusion of GESI experts and stakeholders"
+        "Relevant stakeholders, including GESI experts, not included",
+        "Limited inclusion of the relevant stakeholders, including GESI experts",
+        "All the relevant stakeholders, including GESI experts, are included and contribute meaningfully to decision-making"
     ]
-    inclusion_status = st.radio("Select inclusion level:", inclusion_options, key="gesi_40", index=None)
+    inclusion_status = st.radio("Select inclusion level:", inclusion_options, key="37", index=None)
 
-    st.subheader(questions[40])
+    st.subheader(questions[39])  # Q41: Gender-balanced, socially inclusive and diverse representation
     balance_options = [
-        "FSP team lacks gender and social inclusion",
-        "Team includes some diversity",
-        "Team is gender-balanced and inclusive"
+        "The team does not incorporate gender balance, social inclusion, or representation of under-served groups.",
+        "The team incorporates gender balance, social inclusion, and representation of under-served groups to a limited extent.",
+        "The team effectively integrates gender balance, social inclusion, and representation of under-served groups."
     ]
-    balance_status = st.radio("Select team composition:", balance_options, key="gesi_41", index=None)
+    balance_status = st.radio("Select team composition:", balance_options, key="38", index=None)
 
-    st.subheader(questions[41])
+    st.subheader(questions[40])  # Q42: GESI in work plans, MoUs or TORs
     integration_options = [
-        "No GESI integration in documentation",
-        "Partial or draft inclusion",
-        "Comprehensive GESI integration"
+        "GESI considerations are not included in vaccine FSP Work plans, MoUs or TORs",
+        "GESI considerations are included to a limited extent",
+        "GESI considerations are fully integrated in vaccine FSP Work plans, MoUs or TORs"
     ]
-    integration_status = st.radio("Select GESI integration status:", integration_options, key="gesi_42", index=None)
+    integration_status = st.radio("Select GESI integration status:", integration_options, key="39", index=None)
 
-    st.subheader(questions[42])
+    st.subheader(questions[41])  # Q43: Disaggregated data availability
     data_options = [
-        "Disaggregated data unavailable",
-        "Partial disaggregation (e.g. by sex only)",
-        "Comprehensive disaggregated data available"
+        "The country lacks a reliable system for disaggregated data",
+        "The system captures disaggregated data, but with gaps",
+        "The country has a reliable system that consistently captures disaggregated data"
     ]
-    data_status = st.radio("Select data disaggregation status:", data_options, key="gesi_43", index=None)
+    data_status = st.radio("Select data disaggregation status:", data_options, key="40", index=None)
 
-    st.subheader(questions[43])
+    st.subheader(questions[42])  # Q44: Methodology inclusion for equity
     methodology_options = [
-        "Forecasts don’t include underserved population planning",
-        "Some effort to include underserved groups",
-        "Forecasting explicitly includes underserved groups"
+        "Forecasts do not reflect the needs of underserved or hard-to-reach populations",
+        "Forecasts partially reflect the needs of underserved populations",
+        "Forecasts adequately reflect planned efforts to reach underserved populations"
     ]
-    methodology_status = st.radio("Select equity integration in forecasting:", methodology_options, key="gesi_44", index=None)
+    methodology_status = st.radio("Select equity integration in forecasting:", methodology_options, key="41", index=None)
 
-    st.subheader(questions[44])
+    st.subheader(questions[43])  # Q45: Risk monitoring
     risk_options = [
-        "Risks to underserved populations not considered",
-        "Risks discussed but not routinely addressed",
-        "Risks are routinely monitored and planned for"
+        "Impact of risks on underserved and hard-to-reach populations is not reviewed or considered during routine supply plan monitoring",
+        "Some tracking of risks exists, but no systematic adjustments are made",
+        "Routine monitoring identifies supply risks and adjusts plans to prevent disparities"
     ]
-    risk_status = st.radio("Select risk monitoring status:", risk_options, key="gesi_45", index=None)
+    risk_status = st.radio("Select risk monitoring status:", risk_options, key="42", index=None)
 
-    st.subheader(questions[45])
+    st.subheader(questions[44])  # Q46: Funding for equity adjustments
     funding_options = [
-        "No funding for equity-related adjustments",
-        "Limited or delayed funding",
-        "Funding timely and sufficient for equity-related adjustments"
+        "Funding not available for recommended supply plan adjustments that address equity-related risks",
+        "Limited funding available for equity-related adjustments",
+        "Funding available and enables timely implementation of equity-related adjustments"
     ]
-    funding_status = st.radio("Select equity-related funding availability:", funding_options, key="gesi_46", index=None)
+    funding_status = st.radio("Select equity-related funding availability:", funding_options, key="43", index=None)
 
-    st.subheader(questions[46])
-    comments = st.text_area("Provide comments on GESI:", key="gesi_comment")
+    st.subheader(questions[45])  # Q47: GESI Comments
+    comments = st.text_area("Provide comments on GESI:", key="44")
 
     responses = [
-        inclusion_status, balance_status, integration_status, data_status,
-        methodology_status, risk_status, funding_status, comments
+        inclusion_status, balance_status, integration_status,
+        data_status, methodology_status, risk_status, funding_status, comments
     ]
-    questions_df = pd.DataFrame(questions, columns=["question"])
+    questions_df_subset = questions_df[39:45].reset_index(drop=True)
     answers_df = pd.DataFrame(responses, columns=["answer"])
 
     scores = [
@@ -609,12 +601,14 @@ def gesi_section():
         calculate_score(data_options, data_status),
         calculate_score(methodology_options, methodology_status),
         calculate_score(risk_options, risk_status),
-        calculate_score(funding_options, funding_status)
+        calculate_score(funding_options, funding_status),
+        0  # Score for comments
     ]
     scores_df = pd.DataFrame(scores, columns=["score"])
 
-    combined_df = pd.concat([questions_df, answers_df, scores_df], axis=1)
+    combined_df = pd.concat([questions_df_subset, answers_df, scores_df], axis=1)
     return combined_df
+
 
 
 countries = [

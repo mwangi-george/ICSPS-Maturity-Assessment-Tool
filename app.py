@@ -9,15 +9,13 @@ from dependencies import (
     funding_adjustments_section,
     gesi_section,
     countries, review_periods,
-    append_to_sheet, default_response_note,
-)
-
+    append_to_sheet, default_response_note,)
 
 # Create the bulleted list using Markdown syntax
 bullet_list = "\n".join([f"- {item}" for item in project_sections])
 
 project_title = "Immunization Collaborative Supply Planning Strengthening Project"
-tool_purpose = "Maturity Assessment Tool"
+tool_purpose = "[Maturity Assessment Tool](https://docs.google.com/document/d/1mqzwH8rl5hnuttw8Lf9z4Sh_w0P_vv5t/edit)"
 project_title_short = "ICSPS " + tool_purpose
 
 st.set_page_config(
@@ -65,7 +63,8 @@ def main():
             f"This tool is used to assess the maturity of a country in terms of forecasting and supply planning for vaccines. For immunization forecasting and supply planning to be effective, it must be proactive rather than reactive. The tool looks at various characteristics in five broad categories for effective forecasting and supply planning:"
         )
         st.markdown(bullet_list)
-        st.markdown(" These characteristics holistically contribute to strengthening the forecasting and supply planning practices through the collaborative efforts of all relevant stakeholders in-country thus achieving the desired state of proactive forecasting and supply planning. The assessment results are used to map countries into 3 phases: ad-hoc forecasting and supply planning, reactive forecasting and supply planning, and proactive forecasting and supply planning, with the last being the ideal. Routine monitoring of vaccines by countries ensures that countries maintain adequate stocks of vaccines, align demand for vaccines with supply, and minimize stockouts or the need to destroy vaccines due to expiries.")
+        st.markdown(" These characteristics holistically contribute to strengthening the forecasting and supply planning practices through the collaborative efforts of all relevant stakeholders in-country thus achieving the desired state of proactive forecasting and supply planning. The assessment results are used to map countries into 3 phases: ad-hoc forecasting and supply planning, reactive forecasting and supply planning, and proactive forecasting and supply planning, with the last being the ideal. Routine monitoring of vaccines by countries ensures that countries maintain adequate stocks of vaccines, align demand for vaccines with supply, and minimize stockouts or the need to destroy vaccines due to expiries.The tool also considers gender, equity and social inclusion (GESI), which refers to the intentional consideration of how different groups—such as women, men, adolescents,people with dissabilities and those in remote or underserved areas experience access to health services including Immunization. In the context of FSP,intergrating a GESI lens does not expand the technical mandate of FSP, which remains focused on estimating vaccine needs and planning for timely and adequate supply. Rather it strengthens the quality and responsiveness of FSP by improving accuracy of assumptions, supporting equity aware adjustments,and helping ensure no population is left behind.GESI intergration in FSP includes the use of dissagregated data(e.g.,by sex,age,geography)where available,meaningful cordination with technical GESI expertise to inform planning and international efforts to ensure divrse representation within FSP Teams.These componenents help ensure that forecasts and supply plans are based on a realistic understanding of who is being reached,who is not, and why without asking the FSP team to lead or fund service delivery or outreach efforts. Instead, GESI intergration enables the FSP to better align with broader equity goals while staying fully within its technical scope. ")
+
 
         st.divider()
 
@@ -131,6 +130,13 @@ def main():
                 df=funding_adjustments_section(),
                 section="Funding and Adjustments of Forecasts and Supply Plans"
             )
+
+        with st.expander("Gender Equity and Social Inclusion"):
+            funding_adjustments_section_df = columns_adder(
+                df=gesi_section(),
+                section="Funding and Adjustments of Forecasts and Supply Plans"
+            )
+
 
         with st.expander("Participants List"):
             participants_list = st.text_area(
