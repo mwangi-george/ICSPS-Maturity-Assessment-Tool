@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import streamlit as st
 import pandas as pd
 from datetime import datetime
@@ -11,9 +10,6 @@ from dependencies import (
     gesi_section,
     countries, review_periods,
     append_to_sheet, default_response_note,)
-=======
-from dependencies import purpose, instructions, project_sections, fsp_policies_section, data_section,  analysis_section, forecasting_supply_planning_section, funding_adjustments_section, countries, review_periods, append_to_sheet, default_response_note
->>>>>>> 4abc91d9e5d54e1cb749059f06b5f47b09cd3380
 
 # Create the bulleted list using Markdown syntax
 bullet_list = "\n".join([f"- {item}" for item in project_sections])
