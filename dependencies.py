@@ -511,15 +511,12 @@ def funding_adjustments_section():
         [questions_df[33:38].reset_index(drop=True), answers_df], axis=1)
 
     scores = [
-        calculate_score(results_communication_options,
-                        results_communication_status),
-        calculate_score(adjustments_communication_options,
-                        adjustments_communication_status),
-        calculate_score(adjustments_implementation_options,
-                        adjustments_implementation_status),
-        calculate_score(total_funding_options, total_funding_status),
-        
-    ]
+    calculate_score(results_communication_options, results_communication_status),
+    calculate_score(adjustments_communication_options, adjustments_communication_status),
+    calculate_score(adjustments_implementation_options, adjustments_implementation_status),
+    calculate_score(total_funding_options, total_funding_status),
+    0  # <-- Add 0 to represent the comment (no score)
+]
 
     scores_df = pd.DataFrame(scores, columns=["score"])
 

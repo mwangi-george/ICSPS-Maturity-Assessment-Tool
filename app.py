@@ -132,7 +132,7 @@ def main():
             )
 
         with st.expander("Gender Equity and Social Inclusion"):
-            funding_adjustments_section_df = columns_adder(
+            gesi_section_df = columns_adder(
                 df=gesi_section(),
                 section="Funding and Adjustments of Forecasts and Supply Plans"
             )
@@ -147,7 +147,7 @@ def main():
         with st.expander("View Results Table"):
             all_data = pd.concat([
                 fsp_policies_section_df, data_section_df, analysis_section_df,
-                forecasting_supply_planning_section_df, funding_adjustments_section_df
+                forecasting_supply_planning_section_df, funding_adjustments_section_df, gesi_section_df
             ], axis=0)
 
             st.dataframe(all_data.reset_index(drop=True), hide_index=True)
