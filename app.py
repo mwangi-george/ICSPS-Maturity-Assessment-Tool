@@ -136,7 +136,7 @@ def main():
         with st.expander("Gender Equity and Social Inclusion"):
             gesi_section_df = columns_adder(
                 df=gesi_section(),
-                section="Funding and Adjustments of Forecasts and Supply Plans"
+                section="Gender Equity and Social Inclusion"
             )
 
 
@@ -183,4 +183,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-#
+##

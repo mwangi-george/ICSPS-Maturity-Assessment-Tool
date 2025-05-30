@@ -531,7 +531,7 @@ def gesi_section():
         "Limited inclusion of the relevant stakeholders, including GESI experts",
         "All the relevant stakeholders, including GESI experts, are included and contribute meaningfully to decision-making"
     ]
-    inclusion_status = st.radio("Select inclusion level:", inclusion_options, key="37", index=None)
+    inclusion_status = st.radio("Select inclusion level:", inclusion_options, key="38", index=None)
 
     st.subheader(questions[39])  # Q41: Gender-balanced, socially inclusive and diverse representation
     balance_options = [
@@ -539,7 +539,7 @@ def gesi_section():
         "The team incorporates gender balance, social inclusion, and representation of under-served groups to a limited extent.",
         "The team effectively integrates gender balance, social inclusion, and representation of under-served groups."
     ]
-    balance_status = st.radio("Select team composition:", balance_options, key="38", index=None)
+    balance_status = st.radio("Select team composition:", balance_options, key="39", index=None)
 
     st.subheader(questions[40])  # Q42: GESI in work plans, MoUs or TORs
     integration_options = [
@@ -547,7 +547,7 @@ def gesi_section():
         "GESI considerations are included to a limited extent",
         "GESI considerations are fully integrated in vaccine FSP Work plans, MoUs or TORs"
     ]
-    integration_status = st.radio("Select GESI integration status:", integration_options, key="39", index=None)
+    integration_status = st.radio("Select GESI integration status:", integration_options, key="40", index=None)
 
     st.subheader(questions[41])  # Q43: Disaggregated data availability
     data_options = [
@@ -555,7 +555,7 @@ def gesi_section():
         "The system captures disaggregated data, but with gaps",
         "The country has a reliable system that consistently captures disaggregated data"
     ]
-    data_status = st.radio("Select data disaggregation status:", data_options, key="40", index=None)
+    data_status = st.radio("Select data disaggregation status:", data_options, key="41", index=None)
 
     st.subheader(questions[42])  # Q44: Methodology inclusion for equity
     methodology_options = [
@@ -563,7 +563,7 @@ def gesi_section():
         "Forecasts partially reflect the needs of underserved populations",
         "Forecasts adequately reflect planned efforts to reach underserved populations"
     ]
-    methodology_status = st.radio("Select equity integration in forecasting:", methodology_options, key="41", index=None)
+    methodology_status = st.radio("Select equity integration in forecasting:", methodology_options, key="42", index=None)
 
     st.subheader(questions[43])  # Q45: Risk monitoring
     risk_options = [
@@ -571,7 +571,7 @@ def gesi_section():
         "Some tracking of risks exists, but no systematic adjustments are made",
         "Routine monitoring identifies supply risks and adjusts plans to prevent disparities"
     ]
-    risk_status = st.radio("Select risk monitoring status:", risk_options, key="42", index=None)
+    risk_status = st.radio("Select risk monitoring status:", risk_options, key="43", index=None)
 
     st.subheader(questions[44])  # Q46: Funding for equity adjustments
     funding_options = [
@@ -579,16 +579,16 @@ def gesi_section():
         "Limited funding available for equity-related adjustments",
         "Funding available and enables timely implementation of equity-related adjustments"
     ]
-    funding_status = st.radio("Select equity-related funding availability:", funding_options, key="43", index=None)
+    funding_status = st.radio("Select equity-related funding availability:", funding_options, key="44", index=None)
 
     st.subheader(questions[45])  # Q47: GESI Comments
-    comments = st.text_area("Provide comments on GESI:", key="44")
+    comments = st.text_area("Provide comments on GESI:", key="45")
 
     responses = [
         inclusion_status, balance_status, integration_status,
         data_status, methodology_status, risk_status, funding_status, comments
     ]
-    questions_df_subset = questions_df[39:45].reset_index(drop=True)
+    questions_df_subset = questions_df[38:46].reset_index(drop=True)
     answers_df = pd.DataFrame(responses, columns=["answer"])
 
     scores = [
