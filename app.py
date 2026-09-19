@@ -77,7 +77,7 @@ def main():
 
         st.divider()
         st.image("www/combined_logos_1.png",
-                 use_column_width="always", clamp=True, width=250)
+                 use_column_width="True", clamp=True, width=250)
         st.divider()
     else:
         st.divider()
