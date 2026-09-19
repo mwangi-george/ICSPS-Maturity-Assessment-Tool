@@ -4,3 +4,4 @@ pandas
 gspread
 gspread_dataframe
 python-dotenv
+streamlit-local-storage

@@ -1,7 +1,10 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
+import json
 from streamlit_option_menu import option_menu
+from streamlit_local_storage import LocalStorage
+
 from dependencies import (
     instructions, project_sections,
     fsp_policies_section, data_section,
@@ -13,7 +16,6 @@ from dependencies import (
 
 # Create the bulleted list using Markdown syntax
 bullet_list = "\n".join([f"- {item}" for item in project_sections])
-
 project_title = "Immunization Collaborative Supply Planning Strengthening Project"
 tool_purpose = "[Maturity Assessment Tool](https://docs.google.com/document/d/1mqzwH8rl5hnuttw8Lf9z4Sh_w0P_vv5t/edit)"
 project_title_short = "ICSPS " + tool_purpose
@@ -22,6 +24,9 @@ st.set_page_config(
     page_title=project_title_short,
     layout="wide"
 )
+
+# Initialize Local Storage component
+localS = LocalStorage()
 
 selected = option_menu(
     menu_title=None,
@@ -37,10 +42,8 @@ selected = option_menu(
     orientation="horizontal"
 )
 
-
 def calculate_total_score(scores):
     return sum(scores)
-
 
 def determine_maturity_level(total_score):
     if total_score <= 62:
@@ -50,49 +53,55 @@ def determine_maturity_level(total_score):
     else:
         return "Proactive supply planning"
 
-
 def main():
-
     if selected == "Home Page":
-
         st.title(body=project_title)
         st.subheader(tool_purpose)
-
         st.title("Purpose")
         st.markdown(
             f"This tool is used to assess the maturity of a country in terms of forecasting and supply planning for vaccines. For immunization forecasting and supply planning to be effective, it must be proactive rather than reactive. The tool looks at various characteristics in five broad categories for effective forecasting and supply planning:"
         )
         st.markdown(bullet_list)
         st.markdown(" These characteristics holistically contribute to strengthening the forecasting and supply planning practices through the collaborative efforts of all relevant stakeholders in-country thus achieving the desired state of proactive forecasting and supply planning. The assessment results are used to map countries into 3 phases: ad-hoc forecasting and supply planning, reactive forecasting and supply planning, and proactive forecasting and supply planning, with the last being the ideal. Routine monitoring of vaccines by countries ensures that countries maintain adequate stocks of vaccines, align demand for vaccines with supply, and minimize stockouts or the need to destroy vaccines due to expiries." )
-                  
+                 
         st.markdown ("The tool also considers gender, equity and social inclusion (GESI), which refers to the intentional consideration of how different groups—such as women, men, adolescents,people with dissabilities and those in remote or underserved areas experience access to health services including Immunization. In the context of FSP,intergrating a GESI lens does not expand the technical mandate of FSP, which remains focused on estimating vaccine needs and planning for timely and adequate supply. Rather it strengthens the quality and responsiveness of FSP by improving accuracy of assumptions, supporting equity aware adjustments,and helping ensure no population is left behind.GESI intergration in FSP includes the use of dissagregated data(e.g.,by sex,age,geography)where available,meaningful cordination with technical GESI expertise to inform planning and international efforts to ensure divrse representation within FSP Teams.These componenents help ensure that forecasts and supply plans are based on a realistic understanding of who is being reached,who is not, and why without asking the FSP team to lead or fund service delivery or outreach efforts. Instead, GESI intergration enables the FSP to better align with broader equity goals while staying fully within its technical scope. ")
-
-
         st.divider()
-
         st.title("Instructions")
         st.write(instructions)
-
         st.write(f":red[{default_response_note}]")
-
         st.divider()
+        # Updated st.image parameters
         st.image("www/combined_logos_1.png",
-                 use_column_width="True", clamp=True, width=250)
+                 use_container_width=True, clamp=True, width=250)
         st.divider()
     else:
         st.divider()
+
+        # Load draft data on page initialization
+        saved_draft = localS.getItem("icsps_form_draft")
+        if saved_draft and not st.session_state.get("draft_loaded"):
+            try:
+                # Parse dictionary depending on component return type
+                draft_data = saved_draft if isinstance(saved_draft, dict) else json.loads(saved_draft)
+                for k, v in draft_data.items():
+                    st.session_state[k] = v
+                st.session_state["draft_loaded"] = True
+                st.rerun()
+            except Exception as e:
+                pass
+
         st.subheader("Required fields")
+        # Added unique keys to main inputs to map them to session_state
         country_name = st.selectbox(
-            "Name of Country being assessed", countries, placeholder="Choose country")
+            "Name of Country being assessed", countries, placeholder="Choose country", key="country_name")
         assessors_name = st.text_input(
-            "Name", placeholder="Enter your name")
+            "Name", placeholder="Enter your name", key="assessors_name")
         assessors_affiliation = st.text_input(
-            "Organization", placeholder="Enter your organization's name"
+            "Organization", placeholder="Enter your organization's name", key="assessors_affiliation"
         )
         period_of_review = st.selectbox(
-            "Period of Review", review_periods, placeholder="Choose the period of review")
+            "Period of Review", review_periods, placeholder="Choose the period of review", key="period_of_review")
         date_of_assessment = datetime.now()
-
         st.divider()
         with st.expander("FSP Policies, Commitment & Political Will"):
             def columns_adder(df, section):
@@ -103,47 +112,69 @@ def main():
                 df["date_of_assessment"] = date_of_assessment
                 df["section"] = section
                 return df
-
             fsp_policies_section_df = columns_adder(
                 df=fsp_policies_section(),
                 section="FSP Policies, Commitment & Political Will"
             )
-
         with st.expander("Data"):
             data_section_df = columns_adder(
                 df=data_section(),
                 section="Data"
             )
-
         with st.expander("Analysis"):
             analysis_section_df = columns_adder(
                 df=analysis_section(),
                 section="Analysis"
             )
-
         with st.expander("Forecasting and Supply Planning Activities"):
             forecasting_supply_planning_section_df = columns_adder(
                 df=forecasting_supply_planning_section(),
                 section="Forecasting and Supply Planning Activities"
             )
-
         with st.expander("Funding and Adjustments of Forecasts and Supply Plans"):
             funding_adjustments_section_df = columns_adder(
                 df=funding_adjustments_section(),
                 section="Funding and Adjustments of Forecasts and Supply Plans"
             )
-
         with st.expander("Gender Equity and Social Inclusion"):
             gesi_section_df = columns_adder(
                 df=gesi_section(),
                 section="Gender Equity and Social Inclusion"
             )
-
-
         with st.expander("Participants List"):
             participants_list = st.text_area(
-                " ", placeholder="Please fill the name of each person and their organisation in brackets separated with a comma. e.g. Jane Doe (JSI), John Doe (CHAI)"
+                " ", placeholder="Please fill the name of each person and their organisation in brackets separated with a comma. e.g. Jane Doe (JSI), John Doe (CHAI)",
+                key="participants_list"
             )
+        
+        st.divider()
+        
+        # --- DRAFT SAVE/CLEAR CONTROLS ---
+        col1, col2 = st.columns([1, 5])
+        with col1:
+            if st.button("💾 Save Draft", key="save_draft_btn"):
+                # Collect all unique widget keys used in the app
+                draft_keys = [
+                    "country_name", "assessors_name", "assessors_affiliation", "period_of_review", "participants_list",
+                    "1", "2", "3", "4", "5", "6", "7", "fsp",
+                    "8", "9", "10", "11", "12", "data",
+                    "13", "14", "15", "16", "17", "18", "20", "21", "22", "analysis",
+                    "23", "24", "25", "26", "27", "28", "29", "30", "forecasting_supply_planning",
+                    "34", "35", "36", "37", "funding_adjst",
+                    "38", "39", "40", "41", "42", "43", "44", "45"
+                ]
+                draft_data = {k: st.session_state[k] for k in draft_keys if k in st.session_state}
+                localS.setItem("icsps_form_draft", draft_data)
+                st.toast("Draft successfully saved to your browser! 💾", icon="✅")
+
+        with col2:
+            if st.button("🗑️ Clear Draft", key="clear_draft_btn"):
+                localS.deleteAll()
+                # Clear session state for a fresh form
+                for key in list(st.session_state.keys()):
+                    del st.session_state[key]
+                st.toast("Draft cleared!", icon="🗑️")
+                st.rerun()
 
         st.divider()
         with st.expander("View Results Table"):
@@ -151,20 +182,16 @@ def main():
                 fsp_policies_section_df, data_section_df, analysis_section_df,
                 forecasting_supply_planning_section_df, funding_adjustments_section_df, gesi_section_df
             ], axis=0)
-
             st.dataframe(all_data.reset_index(drop=True), hide_index=True)
             total_score = all_data['score'].sum(skipna=True)
-
         maturity_level = determine_maturity_level(total_score)
         all_data["maturity_level"] = maturity_level
         all_data["participants"] = participants_list
         st.markdown("### Your maturity level is:")
         st.markdown(f"#### {maturity_level}")
         st.metric(label="Total Maturity Score", value=total_score)
-
         submit_data = st.button(
             label="Submit", key="submit_assessment_df", type="primary")
-
         validate_data = [country_name, assessors_name,
                          assessors_affiliation, period_of_review]
         if submit_data:
@@ -179,8 +206,8 @@ def main():
                 else:
                     st.success("Successfully submitted!🔔")
                     print("Successfully submitted!🔔")
-
+                    # Optionally clear drafts after successful submission
+                    localS.deleteAll()
 
 if __name__ == "__main__":
     main()
-##

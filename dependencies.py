@@ -7,8 +7,8 @@ from gspread_dataframe import set_with_dataframe
 from google.oauth2 import service_account
 from dotenv import load_dotenv
 
-
 load_dotenv()
+
 project_sections = [
     "FSP Policies, Commitment & Political Will",
     "Data",
@@ -17,7 +17,6 @@ project_sections = [
     "Funding and Adjustments of Forecasts and Supply Plans",
     "Gender, equity and social inclusion (GESI)"
 ]
-
 
 purpose = """
 This tool assesses a country's vaccine forecasting and supply planning maturity. To be effective,
@@ -36,6 +35,7 @@ forecasting and supply planning, reactive forecasting and supply planning, and p
 supply planning, with the last being the ideal. Routine monitoring of vaccines by countries ensures that
 countries maintain adequate stocks of vaccines, align demand for vaccines with supply, and minimize
 stockouts or the need to destroy vaccines due to expiries.
+
 The tool also considers gender, equity and social inclusion (GESI), which refers to the intentional
 consideration of how different groups—such as women, men, adolescents, people with disabilities, and those
 in remote or underserved areas—experience access to health services, including immunization. In the context
@@ -51,14 +51,13 @@ integration enables FSP to better align with broader equity goals while staying 
 """
 
 instructions = """
-The tool will be completed by country EPI teams participating in the ICSPS initiative. 
+The tool will be completed by country EPI teams participating in the ICSPS initiative.
 For each of the questions, please select the answer that best describes the status in the country, particularly the EPI Team, the National Logistics Working Group for Immunization, or any other task force/body in the country that is responsible for supply and demand planning for vaccines within the country.  
 If you have any key comments, please provide them in the sections at the bottom of each category in the tool.
 The assessment will be completed every quarter to show progress over time. The assessment results will help countries pinpoint and prioritize areas needing improvement. Then, teams will use these findings to create action plans for implementation
 """
 
 default_response_note = "Before you proceed to fill out this digital tool, ensure to first complete a paper-based version. Only input data into the digital tool once the team has collectively agreed upon the responses."
-
 
 questions = [
     "There is a multidisciplinary team responsible for forecasting and supply planning for vaccines. This can be any working group or unit responsible for FSP in the MOH",
@@ -109,14 +108,10 @@ questions = [
     "Gender Equity and Social Inclusion Comments"
 ]
 
-
-
 questions_df = pd.DataFrame(questions, columns=["questions"])
-
 
 def calculate_score(options, answer):
     return options.index(answer) + 1 if answer else 0
-
 
 def fsp_policies_section():
     st.subheader(questions[0])
@@ -142,7 +137,6 @@ def fsp_policies_section():
         "Absence of ToR, MoU, or work plans for vaccine forecasting and supply planning",
         "ToR, MoU, or work plans for forecasting and supply planning for vaccines exist but have certain gaps",
         "Vaccine forecasting and supply planning prioritized in TOR, MoU, or work plans"
-
     ]
     plans_status = st.radio("Select work plans status:",
                             plans_options, key="3", index=None)
@@ -182,10 +176,10 @@ def fsp_policies_section():
     ]
     resources_status = st.radio(
         "Select resources status:", resources_options, key="7", index=None)
+
     st.subheader(questions[7])
     section_1_comment = st.text_area("Provide comments here:", key="fsp")
 
-    # Create a data frame with the responses
     responses = [
         team_status, stakeholders_status,
         plans_status, tor_status, strategy_status,
@@ -197,23 +191,17 @@ def fsp_policies_section():
         [questions_df[0:8].reset_index(drop=True), answers_df], axis=1)
 
     scores = [
-        calculate_score(team_options,
-                        team_status),
-        calculate_score(stakeholders_options,
-                        stakeholders_status),
-        calculate_score(plans_options,
-                        plans_status),
+        calculate_score(team_options, team_status),
+        calculate_score(stakeholders_options, stakeholders_status),
+        calculate_score(plans_options, plans_status),
         calculate_score(tor_options, tor_status),
-        calculate_score(strategy_options,
-                        strategy_status),
+        calculate_score(strategy_options, strategy_status),
         calculate_score(commitment_options, commitment_status),
         calculate_score(resources_options, resources_status)
     ]
     scores_df = pd.DataFrame(scores, columns=["score"])
-
     combined_df = pd.concat([questions_answers_df, scores_df], axis=1)
     return combined_df
-
 
 def data_section():
     st.subheader(questions[8])
@@ -255,29 +243,20 @@ def data_section():
     responses = [
         disaggregated_status, access_status, stock_status, reporting_status, tools_status, comments
     ]
-
     answers_df = pd.DataFrame(responses, columns=["answer"])
     questions_answers_df = pd.concat(
         [questions_df[8:14].reset_index(drop=True), answers_df], axis=1)
 
     scores = [
-        calculate_score(disaggregated_options,
-                        disaggregated_status),
-        calculate_score(access_options,
-                        access_status),
-        calculate_score(stock_options,
-                        stock_status),
+        calculate_score(disaggregated_options, disaggregated_status),
+        calculate_score(access_options, access_status),
+        calculate_score(stock_options, stock_status),
         calculate_score(reporting_options, reporting_status),
-        calculate_score(tools_options,
-                        tools_status)
+        calculate_score(tools_options, tools_status)
     ]
-
     scores_df = pd.DataFrame(scores, columns=["score"])
-
     combined_df = pd.concat([questions_answers_df, scores_df], axis=1)
-
     return combined_df
-
 
 def analysis_section():
     st.subheader(questions[14])
@@ -346,43 +325,32 @@ def analysis_section():
         "Select expiry estimation status:", expiry_estimation_options, key="22", index=None)
 
     st.subheader(questions[23])
-    comments = st.text_area("Provide comments here:")
+    # Added missing key for analysis comment
+    comments = st.text_area("Provide comments here:", key="analysis")
 
     responses = [
         stock_status, forecasting_method, decentralized_data,
         triangulation, update_forecasts, determine_orders,
         plan_coverage, scenario_monitoring, expiry_estimation, comments
     ]
-
     answers_df = pd.DataFrame(responses, columns=["answer"])
     questions_answers_df = pd.concat(
         [questions_df[14:24].reset_index(drop=True), answers_df], axis=1)
 
     scores = [
-        calculate_score(stock_status_options,
-                        stock_status),
-        calculate_score(forecasting_method_options,
-                        forecasting_method),
-        calculate_score(decentralized_data_options,
-                        decentralized_data),
+        calculate_score(stock_status_options, stock_status),
+        calculate_score(forecasting_method_options, forecasting_method),
+        calculate_score(decentralized_data_options, decentralized_data),
         calculate_score(triangulation_options, triangulation),
-        calculate_score(update_forecasts_options,
-                        update_forecasts),
-        calculate_score(determine_orders_options,
-                        determine_orders),
-        calculate_score(plan_coverage_options,
-                        plan_coverage),
+        calculate_score(update_forecasts_options, update_forecasts),
+        calculate_score(determine_orders_options, determine_orders),
+        calculate_score(plan_coverage_options, plan_coverage),
         calculate_score(scenario_monitoring_options, scenario_monitoring),
-        calculate_score(expiry_estimation_options,
-                        expiry_estimation)
+        calculate_score(expiry_estimation_options, expiry_estimation)
     ]
-
     scores_df = pd.DataFrame(scores, columns=["score"])
-
     combined_df = pd.concat([questions_answers_df, scores_df], axis=1)
-
     return combined_df
-
 
 def forecasting_supply_planning_section():
     st.subheader(questions[24])
@@ -445,58 +413,52 @@ def forecasting_supply_planning_section():
         review_status, flexibility_status, decisions_status,
         evidence_status, risks_status, comments
     ]
-
     answers_df = pd.DataFrame(responses, columns=["answer"])
     questions_answers_df = pd.concat(
         [questions_df[24:33].reset_index(drop=True), answers_df], axis=1)
 
     scores = [
-        calculate_score(work_plans_options,
-                        work_plans_status),
-        calculate_score(stakeholders_options,
-                        stakeholders_status),
-        calculate_score(meetings_options,
-                        meetings_status),
+        calculate_score(work_plans_options, work_plans_status),
+        calculate_score(stakeholders_options, stakeholders_status),
+        calculate_score(meetings_options, meetings_status),
         calculate_score(review_options, review_status),
-        calculate_score(flexibility_options,
-                        flexibility_status),
+        calculate_score(flexibility_options, flexibility_status),
         calculate_score(decisions_options, decisions_status),
         calculate_score(evidence_options, evidence_status),
         calculate_score(risks_options, risks_status)
     ]
-
     scores_df = pd.DataFrame(scores, columns=["score"])
-
     combined_df = pd.concat([questions_answers_df, scores_df], axis=1)
-
     return combined_df
-
 
 def funding_adjustments_section():
     st.subheader(questions[33])
     results_communication_options = ["Results not communicated to stakeholders",
                                      "Results partially communicated to stakeholders", "Results communicated to stakeholders"]
+    # Added missing key="34"
     results_communication_status = st.radio(
-        "Select communication of results status:", results_communication_options, index=None)
+        "Select communication of results status:", results_communication_options, key="34", index=None)
 
     st.subheader(questions[34])
     adjustments_communication_options = ["Adjustments not communicated to stakeholders",
                                          "Adjustments partially communicated to stakeholders", "Adjustments communicated to stakeholders"]
+    # Added missing key="35"
     adjustments_communication_status = st.radio(
-        "Select communication of adjustments status:", adjustments_communication_options, index=None)
+        "Select communication of adjustments status:", adjustments_communication_options, key="35", index=None)
 
     st.subheader(questions[35])
     adjustments_implementation_options = [
         "Adjustments not implemented", "Adjustments partially implemented and/or untimely", "Adjustments implemented in a timely manner"]
+    # Added missing key="36"
     adjustments_implementation_status = st.radio(
-        "Select adjustments implementation status:", adjustments_implementation_options, index=None)
+        "Select adjustments implementation status:", adjustments_implementation_options, key="36", index=None)
 
     st.subheader(questions[36])
     total_funding_options = ["Funding not available for total commodity requirement",
                              "Limited funding available for total commodity requirement", "Funding available for total commodity requirement"]
+    # Added missing key="37"
     total_funding_status = st.radio(
-        "Select total funding availability status:", total_funding_options, index=None)
-
+        "Select total funding availability status:", total_funding_options, key="37", index=None)
 
     st.subheader(questions[37])
     comments = st.text_area("Provide comments here:", key="funding_adjst")
@@ -505,27 +467,23 @@ def funding_adjustments_section():
         results_communication_status, adjustments_communication_status,
         adjustments_implementation_status, total_funding_status, comments
     ]
-
     answers_df = pd.DataFrame(responses, columns=["answer"])
     questions_answers_df = pd.concat(
         [questions_df[33:38].reset_index(drop=True), answers_df], axis=1)
 
     scores = [
-    calculate_score(results_communication_options, results_communication_status),
-    calculate_score(adjustments_communication_options, adjustments_communication_status),
-    calculate_score(adjustments_implementation_options, adjustments_implementation_status),
-    calculate_score(total_funding_options, total_funding_status),
-    0  # <-- Add 0 to represent the comment (no score)
-]
-
+        calculate_score(results_communication_options, results_communication_status),
+        calculate_score(adjustments_communication_options, adjustments_communication_status),
+        calculate_score(adjustments_implementation_options, adjustments_implementation_status),
+        calculate_score(total_funding_options, total_funding_status),
+        0
+    ]
     scores_df = pd.DataFrame(scores, columns=["score"])
-
     combined_df = pd.concat([questions_answers_df, scores_df], axis=1)
-
     return combined_df
 
 def gesi_section():
-    st.subheader(questions[38])  # Q40: Inclusion of relevant stakeholders including GESI experts
+    st.subheader(questions[38])  
     inclusion_options = [
         "Relevant stakeholders, including GESI experts, not included",
         "Limited inclusion of the relevant stakeholders, including GESI experts",
@@ -533,7 +491,7 @@ def gesi_section():
     ]
     inclusion_status = st.radio("Select inclusion level:", inclusion_options, key="38", index=None)
 
-    st.subheader(questions[39])  # Q41: Gender-balanced, socially inclusive and diverse representation
+    st.subheader(questions[39])  
     balance_options = [
         "The team does not incorporate gender balance, social inclusion, or representation of under-served groups.",
         "The team incorporates gender balance, social inclusion, and representation of under-served groups to a limited extent.",
@@ -541,7 +499,7 @@ def gesi_section():
     ]
     balance_status = st.radio("Select team composition:", balance_options, key="39", index=None)
 
-    st.subheader(questions[40])  # Q42: GESI in work plans, MoUs or TORs
+    st.subheader(questions[40])  
     integration_options = [
         "GESI considerations are not included in vaccine FSP Work plans, MoUs or TORs",
         "GESI considerations are included to a limited extent",
@@ -549,7 +507,7 @@ def gesi_section():
     ]
     integration_status = st.radio("Select GESI integration status:", integration_options, key="40", index=None)
 
-    st.subheader(questions[41])  # Q43: Disaggregated data availability
+    st.subheader(questions[41])  
     data_options = [
         "The country lacks a reliable system for disaggregated data",
         "The system captures disaggregated data, but with gaps",
@@ -557,7 +515,7 @@ def gesi_section():
     ]
     data_status = st.radio("Select data disaggregation status:", data_options, key="41", index=None)
 
-    st.subheader(questions[42])  # Q44: Methodology inclusion for equity
+    st.subheader(questions[42])  
     methodology_options = [
         "Forecasts do not reflect the needs of underserved or hard-to-reach populations",
         "Forecasts partially reflect the needs of underserved populations",
@@ -565,7 +523,7 @@ def gesi_section():
     ]
     methodology_status = st.radio("Select equity integration in forecasting:", methodology_options, key="42", index=None)
 
-    st.subheader(questions[43])  # Q45: Risk monitoring
+    st.subheader(questions[43])  
     risk_options = [
         "Impact of risks on underserved and hard-to-reach populations is not reviewed or considered during routine supply plan monitoring",
         "Some tracking of risks exists, but no systematic adjustments are made",
@@ -573,7 +531,7 @@ def gesi_section():
     ]
     risk_status = st.radio("Select risk monitoring status:", risk_options, key="43", index=None)
 
-    st.subheader(questions[44])  # Q46: Funding for equity adjustments
+    st.subheader(questions[44])  
     funding_options = [
         "Funding not available for recommended supply plan adjustments that address equity-related risks",
         "Limited funding available for equity-related adjustments",
@@ -581,7 +539,7 @@ def gesi_section():
     ]
     funding_status = st.radio("Select equity-related funding availability:", funding_options, key="44", index=None)
 
-    st.subheader(questions[45])  # Q47: GESI Comments
+    st.subheader(questions[45])  
     comments = st.text_area("Provide comments on GESI:", key="45")
 
     responses = [
@@ -599,32 +557,25 @@ def gesi_section():
         calculate_score(methodology_options, methodology_status),
         calculate_score(risk_options, risk_status),
         calculate_score(funding_options, funding_status),
-        0  # Score for comments
+        0  
     ]
     scores_df = pd.DataFrame(scores, columns=["score"])
-
     combined_df = pd.concat([questions_df_subset, answers_df, scores_df], axis=1)
     return combined_df
-
-
 
 countries = [
     "Nigeria", "Democratic Republic of the Congo",
     "Ethiopia", "Mozambique"
 ]
 
-
 review_periods = [
     "Q1 2024", "Q2 2024", "Q3 2024", "Q4 2024","Q1 2025", "Q2 2025", "Q3 2025","Q4 2025","Q1 2026", "Q2 2026", "Q3 2026","Q4 2026"
 ]
 
 # Authenticate with Google Drive
-
-
 def authenticate():
     scope = ["https://spreadsheets.google.com/feeds",
              "https://www.googleapis.com/auth/drive"]
-    # Read Google Drive credentials from environment variable
     creds_dict = {
         "type": os.environ["GOOGLE_TYPE"],
         "project_id": os.environ["GOOGLE_PROJECT_ID"],
@@ -642,20 +593,13 @@ def authenticate():
     client = gspread.authorize(creds)
     return client
 
-
 def append_to_sheet(df, sheet_name):
     client = authenticate()
-    # Change the sheet name as needed
     sheet = client.open(sheet_name).sheet1
     existing_data = sheet.get_all_records()
     existing_df = pd.DataFrame(existing_data)
-
-    # if (df["country"].isin(existing_df["country"]).all() and df["period_of_review"].isin(existing_df["period_of_review"]).all()):
-    #     st.error("This data already exists")
-    # else:
     combined_df = pd.concat([existing_df, df], ignore_index=True)
     set_with_dataframe(sheet, combined_df)
-
 
 if __name__ == "__main__":
     print(purpose, instructions)
