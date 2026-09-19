@@ -182,7 +182,7 @@ def main():
             # Form submit buttons
             col1, col2 = st.columns([2, 5])
             with col1:
-                update_btn = st.form_submit_button("💾 Save Draft & Calculate", type="primary")
+                update_btn = st.form_submit_button("💾 Save Draft", type="primary")
             with col2:
                 clear_btn = st.form_submit_button("🗑️ Clear Form")
         # === END OF BATCH FORM ===
