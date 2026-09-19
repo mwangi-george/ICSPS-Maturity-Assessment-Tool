@@ -3,6 +3,7 @@ import pandas as pd
 from datetime import datetime
 import json
 from streamlit_option_menu import option_menu
+import streamlit.components.v1 as components
 from streamlit_local_storage import LocalStorage
 
 from dependencies import (
@@ -70,133 +71,170 @@ def main():
         st.write(instructions)
         st.write(f":red[{default_response_note}]")
         st.divider()
-        # Updated st.image parameters
         st.image("www/combined_logos_1.png",
                  use_container_width=True, clamp=True, width=250)
         st.divider()
     else:
         st.divider()
 
-        # Load draft data on page initialization
+        # Initialize a dynamic form key
+        if "form_key" not in st.session_state:
+            st.session_state["form_key"] = "form_0"
+
+        # Check if a clear was requested on the PREVIOUS click
+        if st.session_state.get("clear_requested"):
+            localS.setItem("icsps_form_draft", {})
+            
+            # Clear all answers from Streamlit's internal memory
+            for key in list(st.session_state.keys()):
+                if key != "clear_requested":
+                    del st.session_state[key]
+            
+            st.toast("Draft cleared! Refreshing...", icon="🔄")
+            
+            # Inject a Javascript auto-refresh to force the frontend visual cache to clear
+            components.html(
+                """
+                <script>
+                setTimeout(function() {
+                    window.parent.location.reload();
+                }, 500);
+                </script>
+                """,
+                height=0
+            )
+            st.stop()
+
+        # Load draft data on page initialization (ONLY if it has data and wasn't just cleared)
         saved_draft = localS.getItem("icsps_form_draft")
-        if saved_draft and not st.session_state.get("draft_loaded"):
+        if saved_draft and not st.session_state.get("draft_loaded") and not st.session_state.get("clear_requested"):
             try:
-                # Parse dictionary depending on component return type
                 draft_data = saved_draft if isinstance(saved_draft, dict) else json.loads(saved_draft)
-                for k, v in draft_data.items():
-                    st.session_state[k] = v
+                if draft_data: 
+                    for k, v in draft_data.items():
+                        st.session_state[k] = v
                 st.session_state["draft_loaded"] = True
                 st.rerun()
             except Exception as e:
                 pass
 
-        st.subheader("Required fields")
-        # Added unique keys to main inputs to map them to session_state
-        country_name = st.selectbox(
-            "Name of Country being assessed", countries, placeholder="Choose country", key="country_name")
-        assessors_name = st.text_input(
-            "Name", placeholder="Enter your name", key="assessors_name")
-        assessors_affiliation = st.text_input(
-            "Organization", placeholder="Enter your organization's name", key="assessors_affiliation"
-        )
-        period_of_review = st.selectbox(
-            "Period of Review", review_periods, placeholder="Choose the period of review", key="period_of_review")
-        date_of_assessment = datetime.now()
-        st.divider()
-        with st.expander("FSP Policies, Commitment & Political Will"):
-            def columns_adder(df, section):
-                df["country"] = country_name
-                df["assessors_name"] = assessors_name
-                df["assessors_affiliation"] = assessors_affiliation
-                df["period_of_review"] = period_of_review
-                df["date_of_assessment"] = date_of_assessment
-                df["section"] = section
-                return df
-            fsp_policies_section_df = columns_adder(
-                df=fsp_policies_section(),
-                section="FSP Policies, Commitment & Political Will"
+        # === START OF BATCH FORM ===
+        with st.form(st.session_state["form_key"]):
+            st.subheader("Required fields")
+            country_name = st.selectbox(
+                "Name of Country being assessed", countries, placeholder="Choose country", key="country_name")
+            assessors_name = st.text_input(
+                "Name", placeholder="Enter your name", key="assessors_name")
+            assessors_affiliation = st.text_input(
+                "Organization", placeholder="Enter your organization's name", key="assessors_affiliation"
             )
-        with st.expander("Data"):
-            data_section_df = columns_adder(
-                df=data_section(),
-                section="Data"
-            )
-        with st.expander("Analysis"):
-            analysis_section_df = columns_adder(
-                df=analysis_section(),
-                section="Analysis"
-            )
-        with st.expander("Forecasting and Supply Planning Activities"):
-            forecasting_supply_planning_section_df = columns_adder(
-                df=forecasting_supply_planning_section(),
-                section="Forecasting and Supply Planning Activities"
-            )
-        with st.expander("Funding and Adjustments of Forecasts and Supply Plans"):
-            funding_adjustments_section_df = columns_adder(
-                df=funding_adjustments_section(),
-                section="Funding and Adjustments of Forecasts and Supply Plans"
-            )
-        with st.expander("Gender Equity and Social Inclusion"):
-            gesi_section_df = columns_adder(
-                df=gesi_section(),
-                section="Gender Equity and Social Inclusion"
-            )
-        with st.expander("Participants List"):
-            participants_list = st.text_area(
-                " ", placeholder="Please fill the name of each person and their organisation in brackets separated with a comma. e.g. Jane Doe (JSI), John Doe (CHAI)",
-                key="participants_list"
-            )
-        
-        st.divider()
-        
-        # --- DRAFT SAVE/CLEAR CONTROLS ---
-        col1, col2 = st.columns([1, 5])
-        with col1:
-            if st.button("💾 Save Draft", key="save_draft_btn"):
-                # Collect all unique widget keys used in the app
-                draft_keys = [
-                    "country_name", "assessors_name", "assessors_affiliation", "period_of_review", "participants_list",
-                    "1", "2", "3", "4", "5", "6", "7", "fsp",
-                    "8", "9", "10", "11", "12", "data",
-                    "13", "14", "15", "16", "17", "18", "20", "21", "22", "analysis",
-                    "23", "24", "25", "26", "27", "28", "29", "30", "forecasting_supply_planning",
-                    "34", "35", "36", "37", "funding_adjst",
-                    "38", "39", "40", "41", "42", "43", "44", "45"
-                ]
-                draft_data = {k: st.session_state[k] for k in draft_keys if k in st.session_state}
-                localS.setItem("icsps_form_draft", draft_data)
-                st.toast("Draft successfully saved to your browser! 💾", icon="✅")
+            period_of_review = st.selectbox(
+                "Period of Review", review_periods, placeholder="Choose the period of review", key="period_of_review")
+            date_of_assessment = datetime.now()
+            st.divider()
+            
+            with st.expander("FSP Policies, Commitment & Political Will"):
+                def columns_adder(df, section):
+                    df["country"] = country_name
+                    df["assessors_name"] = assessors_name
+                    df["assessors_affiliation"] = assessors_affiliation
+                    df["period_of_review"] = period_of_review
+                    df["date_of_assessment"] = date_of_assessment
+                    df["section"] = section
+                    return df
+                fsp_policies_section_df = columns_adder(
+                    df=fsp_policies_section(),
+                    section="FSP Policies, Commitment & Political Will"
+                )
+            with st.expander("Data"):
+                data_section_df = columns_adder(
+                    df=data_section(),
+                    section="Data"
+                )
+            with st.expander("Analysis"):
+                analysis_section_df = columns_adder(
+                    df=analysis_section(),
+                    section="Analysis"
+                )
+            with st.expander("Forecasting and Supply Planning Activities"):
+                forecasting_supply_planning_section_df = columns_adder(
+                    df=forecasting_supply_planning_section(),
+                    section="Forecasting and Supply Planning Activities"
+                )
+            with st.expander("Funding and Adjustments of Forecasts and Supply Plans"):
+                funding_adjustments_section_df = columns_adder(
+                    df=funding_adjustments_section(),
+                    section="Funding and Adjustments of Forecasts and Supply Plans"
+                )
+            with st.expander("Gender Equity and Social Inclusion"):
+                gesi_section_df = columns_adder(
+                    df=gesi_section(),
+                    section="Gender Equity and Social Inclusion"
+                )
+            with st.expander("Participants List"):
+                participants_list = st.text_area(
+                    " ", placeholder="Please fill the name of each person and their organisation in brackets separated with a comma. e.g. Jane Doe (JSI), John Doe (CHAI)",
+                    key="participants_list"
+                )
+            
+            st.divider()
+            
+            # Form submit buttons
+            col1, col2 = st.columns([2, 5])
+            with col1:
+                update_btn = st.form_submit_button("💾 Save Draft & Calculate", type="primary")
+            with col2:
+                clear_btn = st.form_submit_button("🗑️ Clear Form")
+        # === END OF BATCH FORM ===
 
-        with col2:
-            if st.button("🗑️ Clear Draft", key="clear_draft_btn"):
-                localS.deleteAll()
-                # Clear session state for a fresh form
-                for key in list(st.session_state.keys()):
-                    del st.session_state[key]
-                st.toast("Draft cleared!", icon="🗑️")
-                st.rerun()
+        # Handle Clear Button (Sets flag and instantly reruns to trigger step 2 above)
+        if clear_btn:
+            st.session_state["clear_requested"] = True
+            st.rerun()
 
+        # Handle Save Button
+        if update_btn:
+            draft_keys = [
+                "country_name", "assessors_name", "assessors_affiliation", "period_of_review", "participants_list",
+                "1", "2", "3", "4", "5", "6", "7", "fsp",
+                "8", "9", "10", "11", "12", "data",
+                "13", "14", "15", "16", "17", "18", "20", "21", "22", "analysis",
+                "23", "24", "25", "26", "27", "28", "29", "30", "forecasting_supply_planning",
+                "34", "35", "36", "37", "funding_adjst",
+                "38", "39", "40", "41", "42", "43", "44", "45"
+            ]
+            draft_data = {k: st.session_state[k] for k in draft_keys if k in st.session_state}
+            localS.setItem("icsps_form_draft", draft_data)
+            st.toast("Draft successfully saved", icon="✅")
+
+        # Process and show results (Outside the form, updates only when submitted)
         st.divider()
-        with st.expander("View Results Table"):
+        with st.expander("View Results Table", expanded=True):
             all_data = pd.concat([
                 fsp_policies_section_df, data_section_df, analysis_section_df,
                 forecasting_supply_planning_section_df, funding_adjustments_section_df, gesi_section_df
             ], axis=0)
             st.dataframe(all_data.reset_index(drop=True), hide_index=True)
             total_score = all_data['score'].sum(skipna=True)
+            
         maturity_level = determine_maturity_level(total_score)
         all_data["maturity_level"] = maturity_level
         all_data["participants"] = participants_list
+        
         st.markdown("### Your maturity level is:")
         st.markdown(f"#### {maturity_level}")
         st.metric(label="Total Maturity Score", value=total_score)
+        
+        # Standard button for final Google Sheets submission
         submit_data = st.button(
-            label="Submit", key="submit_assessment_df", type="primary")
+            label="Final Submit to Database", key="submit_assessment_df", type="primary")
+            
         validate_data = [country_name, assessors_name,
                          assessors_affiliation, period_of_review]
+                         
         if submit_data:
             if any(not item for item in validate_data):
-                st.error("Required fields cannot be Empty")
+                st.error("Required fields cannot be Empty. Please update the form first.")
             else:
                 try:
                     append_to_sheet(all_data, "icsps_data_for_pbi")
@@ -206,8 +244,7 @@ def main():
                 else:
                     st.success("Successfully submitted!🔔")
                     print("Successfully submitted!🔔")
-                    # Optionally clear drafts after successful submission
-                    localS.deleteAll()
+                    localS.setItem("icsps_form_draft", {}) 
 
 if __name__ == "__main__":
     main()
